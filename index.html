@@ -1,469 +1,548 @@
+انسخي الكود كامل واستبدلي فيه محتوى ملف index.html الحالي:
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>متحف يزن</title>
+<meta name="theme-color" content="#170d17">
+<title>متحف يزن | Yazan Museum</title>
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Amiri:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap');
+
+:root{
+ --gold:#d8b77b;
+ --cream:#f2e5ce;
+ --wine:#4b202e;
+ --dark:#170d17;
+}
 *{box-sizing:border-box}
-body{margin:0;background:#10070b;color:#f3e4c3;font-family:Cairo,Arial,sans-serif;overflow:hidden}
-#game{position:fixed;inset:0}
-canvas{display:block;width:100%;height:100%}
-#top{position:absolute;top:0;left:0;right:0;text-align:center;padding:12px;background:linear-gradient(#16070de8,transparent);pointer-events:none}
-#top h1{font:32px Amiri,serif;color:#e4c17a;margin:0;text-shadow:0 2px 8px #000}
-#top small{font-size:10px;letter-spacing:2px;color:#d6c29c}
-#help{position:absolute;top:80px;left:12px;background:#1b0b10cc;border:1px solid #ad874b;padding:9px 12px;border-radius:8px;font-size:10px;max-width:165px;line-height:1.9}
-#prompt{position:absolute;bottom:155px;left:50%;transform:translateX(-50%);background:#18080edb;border:1px solid #d0ac65;border-radius:25px;padding:8px 16px;font-size:12px;display:none;white-space:nowrap}
-#info{position:absolute;bottom:0;left:0;right:0;min-height:110px;padding:12px 16px 18px;background:linear-gradient(transparent,#16070df5 25%);text-align:center;pointer-events:none}
-#info h2{font:24px Amiri,serif;color:#e8c77e;margin:0}
-#info p{font-size:11px;line-height:1.8;margin:2px auto;max-width:650px;color:#e5d6bb}
-#controls{position:absolute;bottom:120px;left:15px;display:grid;grid-template-columns:48px 48px 48px;grid-template-rows:48px 48px;gap:5px;direction:ltr}
-.ctrl{border:1px solid #c9a45d;background:#30111dcc;color:#f4dfae;border-radius:12px;font-size:22px;touch-action:none}
-#up{grid-column:2;grid-row:1}
-#left{grid-column:1;grid-row:2}
-#down{grid-column:2;grid-row:2}
-#right{grid-column:3;grid-row:2}
-#turn{position:absolute;bottom:120px;right:15px;display:flex;flex-direction:column;gap:8px}
-#turn button{width:55px;height:48px;border:1px solid #c9a45d;background:#30111dcc;color:#f4dfae;border-radius:12px;font-size:19px;touch-action:none}
-#music{position:absolute;top:82px;right:12px;border:1px solid #c9a45d;background:#241019;color:#f4dfae;padding:8px 11px;border-radius:8px;font-size:11px}
-#soundnote{position:absolute;top:124px;right:12px;color:#d4c29e;font-size:9px;max-width:155px;text-align:right}
-#overlay{display:none;position:absolute;inset:0;background:#10070bf2;align-items:center;justify-content:center;padding:20px}
-#overlay.show{display:flex}
-#card{width:min(440px,100%);max-height:80%;overflow:auto;border:2px solid #b89452;background:linear-gradient(145deg,#55202c,#1b090f);padding:23px;text-align:center;box-shadow:0 0 45px #000}
-#card .big{font-size:55px}
-#card h2{font:29px Amiri,serif;color:#efd18e;margin:5px}
-#card p{font-size:13px;line-height:2;color:#f1e4ce}
-#close{background:#b38c4d;color:#1a090e;border:0;padding:9px 25px;font:inherit;margin-top:8px}
-#start{position:absolute;inset:0;background:radial-gradient(ellipse,#652638,#16070d 70%);display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}
-#startbox{max-width:480px}
-#start h1{font:clamp(40px,9vw,65px) Amiri,serif;color:#efd18e;margin:0}
-#start p{font-size:13px;line-height:2;color:#e4d4b8}
-#enter{background:#b38c4d;color:#1a090e;border:0;padding:12px 30px;font:700 15px Cairo;cursor:pointer}
-@media(min-width:700px){#controls,#turn{opacity:.65}}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--dark);color:var(--cream);font-family:Cairo,Arial}
+button{font:inherit;cursor:pointer}
+#world{position:fixed;inset:0;overflow:hidden;background:#160d16}
+#scene{
+ position:absolute;inset:0;
+ transform:scale(1.02);
+ transition:background .7s ease;
+ overflow:hidden;
+}
+#scene:before{
+ content:"";position:absolute;inset:0;
+ background:
+ radial-gradient(ellipse at 50% 30%,#e3b97828,transparent 48%),
+ linear-gradient(90deg,#100912d9,transparent 20%,transparent 80%,#100912d9),
+ linear-gradient(0deg,#0d080de8,transparent 55%,#100912a8);
+ z-index:3;pointer-events:none
+}
+.ceiling{
+ position:absolute;top:0;left:0;right:0;height:18%;
+ background:linear-gradient(#28131e,#56313a 65%,#28131e);
+ border-bottom:3px solid #b48b53;
+}
+.ceiling:after{
+ content:"";position:absolute;left:8%;right:8%;bottom:10px;height:2px;
+ background:#d4b16e;box-shadow:0 0 20px #e6c783;
+}
+.side{
+ position:absolute;top:18%;bottom:17%;width:17%;
+ background:linear-gradient(90deg,#170c15,#63303a 48%,#29121d);
+ border:2px solid #a77c4b;
+}
+.side.left{left:0}
+.side.right{right:0}
+.wall{
+ position:absolute;top:18%;bottom:17%;left:17%;right:17%;
+ background:linear-gradient(130deg,#673b43,#40212d 45%,#63333a);
+}
+.floor{
+ position:absolute;bottom:0;left:0;right:0;height:25%;
+ background:
+ repeating-linear-gradient(90deg,transparent 0 9%,#d2ad6412 9.2% 9.5%),
+ repeating-linear-gradient(0deg,#321723,#4b2432 12%,#2a1420 24%);
+ clip-path:polygon(0 0,100% 0,100% 100%,0 100%);
+}
+.carpet{
+ position:absolute;bottom:0;left:27%;right:27%;height:25%;
+ background:
+ repeating-linear-gradient(0deg,#6d2636 0 14px,#8b3944 15px 17px);
+ border-left:4px solid #c7a15d;border-right:4px solid #c7a15d;
+ clip-path:polygon(24% 0,76% 0,100% 100%,0 100%);
+}
+.carpet:after{
+ content:"";position:absolute;inset:12px;
+ border:2px solid #d6b26b;
+}
+.ceilingLight{
+ position:absolute;top:3%;left:50%;transform:translateX(-50%);
+ width:100px;height:125px;z-index:2;
+}
+.lamp{
+ position:absolute;top:25px;left:50%;transform:translateX(-50%);
+ width:55px;height:70px;
+ border-radius:50% 50% 15% 15%;
+ background:radial-gradient(ellipse,#ffe6a8 0,#d9a95c 35%,#70462e 70%);
+ box-shadow:0 0 40px 18px #ffd88b66;
+}
+.lamp:before{
+ content:"";position:absolute;top:-25px;left:50%;height:25px;width:3px;background:#c5a16c;
+}
+.lamp:after{
+ content:"";position:absolute;bottom:-10px;left:50%;width:90px;height:12px;transform:translateX(-50%);
+ border-radius:50%;border:2px solid #d4b16e;
+}
+.painting{
+ position:absolute;top:27%;width:22%;height:38%;
+ border:8px ridge #c4a064;
+ background:#1b1019;
+ box-shadow:0 10px 25px #0009,0 0 20px #d7b66a33;
+ padding:5px;
+}
+.painting.one{left:22%}
+.painting.two{right:22%}
+.painting svg{width:100%;height:100%;display:block}
+.painting.center{
+ top:25%;left:50%;transform:translateX(-50%);
+ width:25%;height:43%;
+}
+.galleryTitle{
+ position:absolute;top:20%;left:50%;transform:translateX(-50%);
+ z-index:5;text-align:center;white-space:nowrap;
+ font:clamp(24px,4vw,39px) Amiri,serif;
+ color:#f2d69c;text-shadow:0 3px 12px #1a0b10;
+}
+.gallerySubtitle{
+ position:absolute;top:26%;left:50%;transform:translateX(-50%);
+ z-index:5;font-size:10px;letter-spacing:3px;color:#e3c99f;
+}
+#hud{
+ position:absolute;top:0;left:0;right:0;z-index:10;
+ display:flex;justify-content:space-between;align-items:center;
+ padding:12px 14px;
+ background:linear-gradient(#130a14d9,transparent);
+}
+.brand{font:22px Amiri,serif;color:#e9ca8c}
+#roomNumber{font-size:10px;color:#d6bd96}
+#description{
+ position:absolute;z-index:10;bottom:104px;left:50%;
+ transform:translateX(-50%);
+ text-align:center;width:min(90%,480px);
+ padding:10px 15px;background:#1b0d17c9;
+ border:1px solid #a98450;border-radius:12px;
+ backdrop-filter:blur(7px);
+}
+#description h2{font:24px Amiri;margin:0;color:#edce8e}
+#description p{font-size:11px;line-height:1.8;margin:0;color:#e8d8c1}
+#controls{
+ position:absolute;z-index:12;bottom:15px;left:50%;
+ transform:translateX(-50%);
+ display:flex;gap:12px;align-items:center;
+}
+.nav{
+ width:65px;height:55px;border-radius:15px;
+ border:1px solid #c5a16a;background:#29131edb;
+ color:#f2d69c;font-size:23px;
+ box-shadow:0 4px 14px #0007;
+ touch-action:none;
+}
+.nav:active{background:#704050}
+#viewHelp{
+ position:absolute;z-index:12;top:65px;left:50%;
+ transform:translateX(-50%);
+ background:#1a0d18b8;border:1px solid #9c784b;
+ border-radius:30px;padding:7px 14px;
+ font-size:10px;color:#e5d2ad;white-space:nowrap;
+}
+#loading{
+ position:absolute;inset:0;z-index:30;
+ display:flex;align-items:center;justify-content:center;
+ background:#170d17;color:#e8cc96;
+ font:25px Amiri,serif;
+}
+#intro{
+ position:absolute;inset:0;z-index:40;
+ background:
+ radial-gradient(ellipse at center,#74404b,#321824 45%,#100a12 100%);
+ display:flex;align-items:center;justify-content:center;text-align:center;
+ padding:25px;
+}
+.introBox{max-width:480px}
+.introBox h1{font:clamp(42px,10vw,72px) Amiri;color:#efd59d;margin:0}
+.introBox p{font-size:13px;line-height:2;color:#e4d3b7}
+.startBtn{
+ background:#c9a36b;color:#24121a;border:0;
+ border-radius:5px;padding:12px 32px;font-weight:800;
+}
+#exhibit{
+ position:absolute;inset:0;z-index:25;
+ background:#100a12eF;display:none;
+ align-items:center;justify-content:center;padding:20px;
+}
+#exhibit.open{display:flex}
+.exhibitCard{
+ width:min(500px,100%);background:#3a1c29;
+ border:5px ridge #c9a66d;padding:12px;text-align:center;
+}
+.exhibitArt{height:210px;background:#20101b;overflow:hidden}
+.exhibitArt svg{width:100%;height:100%}
+.exhibitCard h2{font:28px Amiri;color:#efd49a;margin:10px 0 0}
+.exhibitCard p{font-size:12px;line-height:2;color:#eadbc4}
+.exhibitCard button{
+ border:1px solid #c9a66d;background:#24111a;color:#f1d8a6;
+ padding:9px 25px;
+}
+#musicPanel{
+ position:absolute;z-index:14;top:65px;right:12px;
+ background:#1a0d18dd;border:1px solid #9c784b;
+ padding:8px;border-radius:8px;
+}
+#musicPanel button{background:transparent;border:0;color:#e8ce9c;font-size:11px}
+#progress{
+ position:absolute;bottom:88px;left:50%;transform:translateX(-50%);
+ display:flex;gap:5px;z-index:10;
+}
+.dot{width:5px;height:5px;border-radius:50%;background:#765c50}
+.dot.active{background:#e5c483;width:17px;border-radius:5px}
+@media(max-width:500px){
+ .painting{width:25%;height:32%;top:33%}
+ .painting.one{left:19%}.painting.two{right:19%}
+ .painting.center{width:30%;height:38%;top:30%}
+ .side{width:12%}.wall{left:12%;right:12%}
+ #description{bottom:99px}
+}
 </style>
 </head>
-<body>
-<div id="game"></div>
 
-<div id="top">
- <h1>متحف يزن</h1>
- <small>THE YAZAN MUSEUM · 26 NOVEMBER</small>
+<body>
+<div id="world">
+ <div id="scene">
+  <div class="ceiling"></div>
+  <div class="side left"></div>
+  <div class="side right"></div>
+  <div class="wall"></div>
+  <div class="floor"></div>
+  <div class="carpet"></div>
+  <div class="ceilingLight"><div class="lamp"></div></div>
+  <div class="galleryTitle" id="title">الردهة الرئيسية</div>
+  <div class="gallerySubtitle" id="subtitle">YAZAN · 21</div>
+  <div class="painting one" id="art1"></div>
+  <div class="painting center" id="art2"></div>
+  <div class="painting two" id="art3"></div>
+ </div>
 </div>
 
-<div id="help">تحرّك بالأزرار أو WASD<br>لفّ بالكاميرا من اليمين واليسار<br>اقترب من القطع واضغط عليها</div>
-<button id="music">♫ تشغيل الأجواء</button>
-<div id="soundnote">موسيقى أصلية مولّدة داخل الموقع، وليست تسجيلات الأغاني التجارية.</div>
-<div id="prompt">اضغط على القطعة لاكتشافها</div>
+<div id="hud">
+ <div class="brand">متحف يزن</div>
+ <div id="roomNumber">01 / 12</div>
+</div>
+
+<div id="viewHelp">اسحبي الشاشة يميناً ويساراً لاستكشاف المكان 360°</div>
+
+<div id="musicPanel">
+ <button id="musicButton">♫ الموسيقى: إيقاف</button>
+</div>
+
+<div id="description">
+ <h2 id="roomTitle">الردهة الرئيسية</h2>
+ <p id="roomDescription">مرحباً بك في متحف يزن.</p>
+</div>
+
+<div id="progress"></div>
 
 <div id="controls">
- <button class="ctrl" id="up">↑</button>
- <button class="ctrl" id="left">←</button>
- <button class="ctrl" id="down">↓</button>
- <button class="ctrl" id="right">→</button>
-</div>
-<div id="turn">
- <button id="turnleft">↶</button>
- <button id="turnright">↷</button>
+ <button class="nav" id="back" aria-label="الرجوع">↓</button>
+ <button class="nav" id="forward" aria-label="التقدم">↑</button>
 </div>
 
-<div id="info">
- <h2 id="roomname">الردهة الرئيسية</h2>
- <p id="roomdesc">ابدأ جولتك. أمامك عالم من الاهتمامات والذكريات.</p>
-</div>
-
-<div id="overlay">
- <div id="card">
-  <div class="big" id="itemicon"></div>
-  <h2 id="itemtitle"></h2>
-  <p id="itemdesc"></p>
-  <button id="close">العودة للجولة</button>
+<div id="exhibit">
+ <div class="exhibitCard">
+  <div class="exhibitArt" id="largeArt"></div>
+  <h2 id="exhibitTitle"></h2>
+  <p id="exhibitText"></p>
+  <button id="closeExhibit">العودة إلى القاعة</button>
  </div>
 </div>
 
-<div id="start">
- <div id="startbox">
+<div id="intro">
+ <div class="introBox">
   <h1>متحف يزن</h1>
-  <p>مكان صُمّم لتتجوّل فيه، وتكتشف قاعاته ومعروضاته بنفسك.<br>خذ وقتك… الجولة إلك.</p>
-  <button id="enter">ادخل المتحف</button>
+  <p>اثنا عشر عالماً صغيراً، يجمعها مكان واحد.<br>تجوّلي بهدوء واكتشفي التفاصيل على مهل.</p>
+  <button class="startBtn" id="start">دخول المتحف</button>
  </div>
 </div>
 
-<script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+<div id="loading">يتم تجهيز القاعة...</div>
 
-const root=document.getElementById('game');
-const scene=new THREE.Scene();
-scene.background=new THREE.Color(0x16090e);
-scene.fog=new THREE.Fog(0x16090e,18,65);
-
-const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,150);
-const renderer=new THREE.WebGLRenderer({antialias:true});
-renderer.setSize(innerWidth,innerHeight);
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
-renderer.shadowMap.enabled=true;
-renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.15;
-root.appendChild(renderer.domElement);
-
-scene.add(new THREE.HemisphereLight(0xffdfbd,0x24101a,2));
-const mainLight=new THREE.PointLight(0xffcf83,90,40);
-mainLight.position.set(0,8,0);scene.add(mainLight);
-
-const gold=0xc49b54,wine=0x541b2a,dark=0x241018,cream=0xe6d5b4;
-const mat=(color,rough=.7)=>new THREE.MeshStandardMaterial({color,roughness:rough});
-const wood=mat(0x32151d),red=mat(0x641e30),goldmat=mat(gold,.35),wall=mat(0x542631),black=mat(0x09090c),white=mat(0xf0eee8);
-const floorMat=mat(0x3b1d22);
-const objects=[];
+<script>
 const rooms=[
-{ name:'الردهة الرئيسية',desc:'بداية الجولة. هنا تلتقي الموسيقى والفضول والاستقلالية.',items:[
-['🎵','موسيقى ويجز','«بخت» هي الاختيار الموسيقي للمدخل. يمكن لاحقاً ربط نسخة مرخّصة من الـCover هنا.'],
-['🧭','الاستقلال','المساحة الشخصية والاستقلالية والقدرة على اختيار الطريق الخاص.'],
-['⚖️','المبادئ','الصدق والوضوح والتمسك بالمبادئ وعدم التصنع.'],
-['🔑','مفتاح الإنسان','فكرة أن لكل شخص مفتاحاً خاصاً، وأن فهم الناس يحتاج إلى الانتباه والتأني.']
+{
+title:"الردهة الرئيسية",sub:"THE BEGINNING",
+desc:"بداية الجولة. هنا تلتقي الموسيقى والفضول والاستقلالية.",
+arts:["مدخل الحكاية","بخت","الاستقلال"],
+texts:[
+"هذا المكان هو بداية الرحلة، ومساحة تجمع الاهتمامات والذكريات.",
+"ويجز وأغنية بخت: اختيار موسيقي يرافق بداية الجولة.",
+"الاستقلال والمساحة الشخصية والقدرة على اختيار الطريق."
 ]},
-{ name:'مرصد الكون',desc:'الفضاء والفلك والأسئلة التي تتجاوز حدود الأرض.',items:[
-['🌌','الفضاء','النجوم والكواكب والمجرات واتساع الكون.'],
-['🔭','علم الفلك','الاهتمام بالظواهر الفلكية ومحاولة فهمها علمياً.'],
-['🪐','الأبراج','فضول تجاه الأبراج والتنجيم والرموز المرتبطة بها.'],
-['⚡','الطاقة والهالة','اهتمام بأفكار الطاقة والهالة والقوى الخفية، مع التمييز بين المعتقدات والأدلة العلمية.'],
-['🎼','موسيقى المرصد','أجواء أوركسترالية غامضة وكورالية.']
+{
+title:"مرصد الكون",sub:"BEYOND THE STARS",
+desc:"الفضاء والنجوم والأسئلة التي تتجاوز حدود الأرض.",
+arts:["المجرات","علم الفلك","الكون"],
+texts:[
+"النجوم والمجرات واتساع الكون.",
+"الفضول تجاه علم الفلك والظواهر الكونية.",
+"التأمل في الكون والأسئلة الكبيرة."
 ]},
-{ name:'مكتبة العقل',desc:'الفلسفة وعلم النفس والتاريخ وفهم الإنسان.',items:[
-['🧠','علم النفس','فهم الشخصية والسلوك والدوافع.'],
-['🎭','قراءة الشخصيات','الانتباه للنظرات وحركة اليدين ونبرة الصوت وطريقة الحضور.'],
-['📖','الفلسفة','أسئلة الوجود والمعنى والحرية والحياة.'],
-['🏛️','أفلاطون ونيتشه','أسماء ارتبطت بقراءاته واهتمامه بالفلسفة.'],
-['⚡','تسلا','من الشخصيات التي تثير اهتمامه.'],
-['📜','الأديان والتاريخ','قراءة عن الأديان والحضارات والتاريخ والفكر.'],
-['♟️','التأثير والتلاعب','اهتمام بفهم أساليب التأثير النفسي والتلاعب.'],
-['🧬','تطوير الذات','فهم النفس والتعلم من الأخطاء وتطوير الشخصية.']
+{
+title:"مكتبة العقل",sub:"THE HUMAN MIND",
+desc:"الفلسفة وعلم النفس والتاريخ وفهم الإنسان.",
+arts:["الفلسفة","نيتشه وأفلاطون","علم النفس"],
+texts:[
+"أسئلة الوجود والمعنى والحرية والحياة.",
+"من الأسماء التي ارتبطت باهتمامه: نيتشه وأفلاطون وتسلا.",
+"فهم الشخصية والسلوك والدوافع وطرق التأثير."
 ]},
-{ name:'قاعة الطفولة',desc:'ذكريات الرسوم المتحركة والعوالم التي رافقت البدايات.',items:[
-['🚀','سبيستون','ذكريات برامج ورسوم متحركة من الطفولة.'],
-['📺','Cartoon Network','عالم الرسوم المتحركة القديم.'],
-['📺','MBC3','قناة من ذكريات الطفولة.'],
-['🖍️','عالم الطباشير','من العوالم الكرتونية التي بقيت في الذاكرة.'],
-['🏝️','فلونة','الجزيرة والطبيعة والحياة البسيطة والمغامرة.']
+{
+title:"قاعة الطفولة",sub:"CHILDHOOD MEMORIES",
+desc:"ذكريات الرسوم المتحركة والعوالم التي رافقت البدايات.",
+arts:["سبيستون","عالم الطباشير","فلونة"],
+texts:[
+"ذكريات الرسوم المتحركة التي رافقت الطفولة.",
+"عالم الطباشير وذكريات البرامج القديمة.",
+"فلونة والجزيرة والطبيعة والحياة البسيطة."
 ]},
-{ name:'صالة الألعاب',desc:'ألعاب قديمة وعوالم مفتوحة وتحديات.',items:[
-['⛏️','Minecraft','البناء والاستكشاف والتجربة.'],
-['🚘','GTA','من الألعاب الموجودة في ذاكرته.'],
-['🏰','Clash of Clans','التخطيط وبناء القرية والهجوم والدفاع.'],
-['🐆','Pink Panther','الفهد الوردي وذكريات الألعاب القديمة.'],
-['🕹️','ألعاب زمان','الألعاب التي صنعت جزءاً من ذكريات الطفولة.'],
-['💻','اللابتوب','مساحة للتعلم واللعب والتجربة.']
+{
+title:"صالة الألعاب",sub:"THE PLAYGROUND",
+desc:"ألعاب قديمة وعوالم مفتوحة وتحديات.",
+arts:["Minecraft","GTA","Clash of Clans"],
+texts:[
+"البناء والاستكشاف والتجربة.",
+"عالم مفتوح ومغامرات.",
+"التخطيط وبناء القرية والهجوم والدفاع."
 ]},
-{ name:'مدرج برشلونة',desc:'كرة القدم وحلم الطفولة وألوان النادي.',items:[
-['🔵🔴','برشلونة','الفريق الذي يشجعه.'],
-['⚽','كرة القدم','اهتمامه بكرة القدم وأجواء الملاعب.'],
-['👕','قميص برشلونة','قميص كبير في واجهة المدرج.'],
-['👕','قميص صغير','قميص أصغر يرمز إلى حلم الطفولة بأن يصبح لاعب كرة قدم.']
+{
+title:"مدرج برشلونة",sub:"MORE THAN A GAME",
+desc:"كرة القدم وحلم الطفولة وألوان النادي.",
+arts:["برشلونة","كرة القدم","حلم الطفولة"],
+texts:[
+"الفريق الذي يشجعه.",
+"كرة القدم وأجواء الملاعب.",
+"حلم الطفولة بأن يصبح لاعب كرة قدم."
 ]},
-{ name:'غرفة الشعر',desc:'الكلمات والشعر العراقي والكتابة.',items:[
-['🪶','الشعر العراقي','ميل إلى الشعر العراقي وما يحمله من صور ومعانٍ.'],
-['📜','لو روحي طير','أغنية اختيرت لهذا الركن، ويمكن ربط Cover مرخّص بها لاحقاً.'],
-['✍️','الكتابة','كانت لديه تجربة في كتابة الشعر والوصف.'],
-['🌙','الكلمات القديمة','يقول إن موهبته في الكتابة خفّت مع الوقت، لكن التجارب المكتوبة تبقى جزءاً من رحلته.']
+{
+title:"غرفة الشعر",sub:"WORDS & POETRY",
+desc:"الكلمات والشعر العراقي والكتابة.",
+arts:["الشعر العراقي","لو روحي طير","الكتابة"],
+texts:[
+"ميل إلى الشعر العراقي وما يحمله من صور ومعانٍ.",
+"أغنية مرتبطة بهذا الركن من المتحف.",
+"تجربة في كتابة الشعر والوصف، حتى لو خفّت مع الوقت."
 ]},
-{ name:'صالون الموسيقى',desc:'أغانٍ وفنانين وموسيقى ترافق الطريق والسيارة والشتاء.',items:[
-['🎤','ويجز','من الفنانين المفضلين لديه.'],
-['🎧','مروان بابلو وSynaptik','من الأسماء التي يستمع إليها.'],
-['🎙️','أدهم نابلسي ووائل جسار','أصوات ضمن ذائقته الموسيقية.'],
-['🎙️','عمرو دياب وتامر حسني','من الفنانين الذين يستمع إليهم.'],
-['🎶','الأغاني المختارة','بخت، أميرة، Bring Me to Life، خليك معايا، حبك يداويني، ولو روحي طير تصير.'],
-['🚘','موسيقى السيارة','للأغاني مكان مختلف في الطريق، خصوصاً في الشتاء.']
+{
+title:"صالون الموسيقى",sub:"SOUNDTRACK OF LIFE",
+desc:"أغانٍ وفنانون وموسيقى ترافق الطريق والشتاء.",
+arts:["ويجز","مروان بابلو","الموسيقى"],
+texts:[
+"ويجز من الفنانين المفضلين لديه.",
+"مروان بابلو وSynaptik من الأسماء التي يستمع إليها.",
+"أدهم نابلسي ووائل جسار وعمرو دياب وتامر حسني."
 ]},
-{ name:'غرفة الملفات السرية',desc:'الغموض والتحقيقات واليابان والمغامرات.',items:[
-['🕵️','التحقيق','الألغاز والتحقيقات وكشف التفاصيل.'],
-['📁','الملفات السياسية','الاهتمام بالسياسة ونظريات المؤامرة، مع التمييز بين الادعاء والدليل.'],
-['🗾','اليابان','بلد وثقافة ووجهة تثير فضوله.'],
-['🎮','PUBG','اللعبة التي ارتبطت ببعض المواقف الطريفة.'],
-['🕶️','أجواء التجسس','موسيقى مغامرات وتحقيقات ولمسة فكاهية.']
+{
+title:"غرفة الملفات السرية",sub:"MYSTERY & DISCOVERY",
+desc:"الغموض والتحقيقات واليابان والمغامرات.",
+arts:["التحقيق","اليابان","الملفات"],
+texts:[
+"الألغاز والتحقيقات وكشف التفاصيل.",
+"اليابان وثقافتها من الأشياء التي تثير فضوله.",
+"اهتمام بالسياسة ونظريات المؤامرة، مع التمييز بين الادعاء والدليل."
 ]},
-{ name:'أرشيف الذكريات',desc:'مواقف صغيرة بقيت في الذاكرة.',items:[
-['💬','عربيتك ركيكة','جملة محفوظة في أرشيف المواقف الطريفة.'],
-['🎮','موقف PUBG','ذكرى مرتبطة باللعب والضحك.'],
-['🪑','كرسيتين مكسورين بكرسي جديدة','عنوان ملف من الأرشيف… والتفاصيل لأصحاب الذكرى.'],
-['🎵','أميرة','اختيرت لتكون موسيقى هذا الأرشيف.']
+{
+title:"أرشيف الذكريات",sub:"THE LITTLE MOMENTS",
+desc:"مواقف صغيرة بقيت في الذاكرة.",
+arts:["عربيتك ركيكة","PUBG","الكرسي"],
+texts:[
+"جملة محفوظة في أرشيف المواقف الطريفة.",
+"ذكرى مرتبطة باللعب والضحك.",
+"كرسيتين مكسورين بكرسي جديدة… ملف خاص بأصحاب الذكرى."
 ]},
-{ name:'خزانة التفاصيل',desc:'الأشياء الصغيرة التي تصنع عالماً كاملاً.',items:[
-['🐈','بسبوس','القط بسبوس وحب القطط والحيوانات.'],
-['🐾','الحيوانات','لا يحب إزعاج الحيوانات أو إيذاءها.'],
-['🚘','السيارات','اهتمام بالسيارات وتفاصيلها.'],
-['⌚','الساعات والإكسسوارات','الساعات والإكسسوارات من الأشياء التي تلفت انتباهه.'],
-['👔','الستايل','لبس رياضي كاجوال مرتب.'],
-['📷','التصوير','ليس من محبي التصوير.'],
-['🥩','الطعام','اللحم والبروتين والبيض.'],
-['🥣','السيريلاك','السيريلاك… وصندوق يومي مطلب مهم في هذا المتحف.'],
-['🌊','الشاطئ','طبيعة هادئة وبحر بعيد عن الزحام.'],
-['💙','الألوان','الأزرق والسماوي من ألوانه المفضلة.']
+{
+title:"خزانة التفاصيل",sub:"THE LITTLE THINGS",
+desc:"الأشياء الصغيرة التي تصنع عالماً كاملاً.",
+arts:["بسبوس","السيارات والساعات","الأزرق"],
+texts:[
+"بسبوس وحب القطط والحيوانات.",
+"السيارات والساعات والإكسسوارات والستايل الرياضي الكاجوال.",
+"الأزرق والسماوي والطبيعة والبحر الهادئ."
 ]},
-{ name:'قاعة الطريق القادم',desc:'السفر والتعلم والعمل والأهداف.',items:[
-['🇩🇪','ألمانيا','من البلدان التي يتمنى زيارتها.'],
-['🗣️','الألمانية','يتعلم اللغة الألمانية.'],
-['💻','C++','يتعلم البرمجة بشكل مستقل عبر يوتيوب واللابتوب.'],
-['💪','الرياضة','اهتمام باللياقة البدنية وكمال الأجسام والتدريب.'],
-['🌲','الطبيعة','السفر والمغامرة والشواطئ الهادئة.'],
-['💼','العمل والفرص','يهتم بالعمل وكسب المال وإنجاز الأشياء.'],
-['📈','الأهداف','يحب التطور والتعلم من الأخطاء وعدم تضييع الأيام.'],
-['🧠','الإنسان','اهتمام بالجسد والنفس والعلم وفهم الإنسان.']
-]},
-{ name:'قاعة عيد الميلاد',desc:'26 نوفمبر 2005 — 26 نوفمبر 2026. بداية سنة جديدة.',items:[
-['🎂','21 سنة','في 26 نوفمبر 2026 يصبح عمره 21 سنة.'],
-['🎹','الموسيقى الختامية','اختيار مقطوعة Experience للقاعة الأخيرة.'],
-['🌟','التجربة','كل سنة تضيف معرفة وتجربة وخطوة جديدة.'],
-['🔑','المفتاح','ليس ضرورياً أن تكون كل الإجابات جاهزة؛ المهم أن يبقى الفضول حياً.']
+{
+title:"قاعة الطريق القادم",sub:"THE NEXT CHAPTER",
+desc:"السفر والتعلم والعمل والأهداف.",
+arts:["ألمانيا","C++","المستقبل"],
+texts:[
+"ألمانيا من البلدان التي يتمنى زيارتها، ويتعلم الألمانية.",
+"يتعلم البرمجة بلغة C++ بشكل مستقل.",
+"الرياضة والعمل والتطور والتعلم من الأخطاء."
 ]}
 ];
 
-let currentRoom=0,angle=0,move=0,turn=0;
-const keys={};
-const clock=new THREE.Clock();
+let current=0;
+let yaw=0;
+let drag=false,lastX=0;
+let isStarted=false;
 
-function box(w,h,d,material,x,y,z){
- const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);
- m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m;
-}
-function sphere(radius,material,x,y,z){
- const m=new THREE.Mesh(new THREE.SphereGeometry(radius,18,14),material);
- m.position.set(x,y,z);m.castShadow=true;scene.add(m);return m;
-}
-function cylinder(rt,rb,h,material,x,y,z){
- const m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,18),material);
- m.position.set(x,y,z);m.castShadow=true;scene.add(m);return m;
-}
-function textSprite(text,x,y,z){
- const c=document.createElement('canvas');c.width=512;c.height=128;
- const ctx=c.getContext('2d');
- ctx.fillStyle='#2a0d16';ctx.fillRect(0,0,512,128);
- ctx.strokeStyle='#d2ad68';ctx.lineWidth=5;ctx.strokeRect(5,5,502,118);
- ctx.fillStyle='#f1d69b';ctx.font='bold 37px Arial';ctx.textAlign='center';ctx.fillText(text,256,79);
- const tex=new THREE.CanvasTexture(c);
- const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:false}));
- s.scale.set(4,1,1);s.position.set(x,y,z);scene.add(s);
-}
-function makeRoom(r,index){
- const z=-index*11;
- box(12,.4,11,floorMat,0,0,z);
- box(12,8,.4,wall,0,4,z-5.5);
- box(.4,8,11,wall,-6,4,z);
- box(.4,8,11,wall,6,4,z);
- box(12,.4,11,wood,0,8,z);
- // gilded wall panels
- for(let x of [-4.7,-2.4,0,2.4,4.7]){
-  box(.08,5,.1,goldmat,x,4,z-5.22);
-  box(1.65,.08,.1,goldmat,x,1.5,z-5.22);
-  box(1.65,.08,.1,goldmat,x,6.5,z-5.22);
- }
- // chandelier
- cylinder(.09,.09,1,goldmat,0,7.2,z);
- for(let a=0;a<6;a++){
-  const t=a*Math.PI/3;
-  sphere(.13,goldmat,Math.cos(t)*.8,6.7,z+Math.sin(t)*.8);
-  const light=new THREE.PointLight(0xffc66f,13,9);
-  light.position.set(Math.cos(t)*.8,6.6,z+Math.sin(t)*.8);scene.add(light);
- }
- textSprite(r.name,0,6.9,z-5.15);
- // decorative stands and unique exhibit objects
- r.items.forEach((item,j)=>{
-  const col=j%4,row=Math.floor(j/4);
-  const x=-4.2+col*2.8;
-  const zz=z+2.2-row*2.6;
-  box(1.25,.25,1.1,wood,x,.55,zz);
-  cylinder(.43,.5,.75,goldmat,x,.95,zz);
-  const colors=[0x8e3450,0x263f69,0x7a5b2c,0x416c62,0x5b4a75];
-  const color=colors[(j+index)%colors.length];
-  const shape=j%4;
-  let exhibit;
-  if(shape===0)exhibit=sphere(.48,mat(color),x,1.85,zz);
-  else if(shape===1)exhibit=box(.75,.95,.5,mat(color),x,1.85,zz);
-  else if(shape===2)exhibit=cylinder(.35,.55,.9,mat(color),x,1.85,zz);
-  else{
-   exhibit=new THREE.Mesh(new THREE.TorusGeometry(.42,.14,12,24),goldmat);
-   exhibit.position.set(x,1.9,zz);scene.add(exhibit);
-  }
-  exhibit.userData={room:index,item:item};
-  objects.push(exhibit);
-  // tiny label below exhibit
-  const label=document.createElement('canvas');label.width=256;label.height=64;
-  const ctx=label.getContext('2d');ctx.fillStyle='#270b14';ctx.fillRect(0,0,256,64);
-  ctx.fillStyle='#f1d69b';ctx.font='24px Arial';ctx.textAlign='center';ctx.fillText(item[1].slice(0,17),128,42);
-  const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(label)}));
-  sprite.scale.set(1.5,.38,1);sprite.position.set(x,1.05,zz-.15);scene.add(sprite);
- });
-}
-rooms.forEach(makeRoom);
+const $=id=>document.getElementById(id);
 
-// hallway joining all galleries
-box(12,.4,rooms.length*11+10,floorMat,0,0,-(rooms.length*11)/2+5);
-box(12,.4,rooms.length*11+10,wood,0,8,-(rooms.length*11)/2+5);
-box(.4,8,rooms.length*11+10,wall,-6,4,-(rooms.length*11)/2+5);
-box(.4,8,rooms.length*11+10,wall,6,4,-(rooms.length*11)/2+5);
-for(let i=0;i<rooms.length;i++){
- const z=-i*11;
- box(.25,6,.25,goldmat,-5.75,3,z);
- box(.25,6,.25,goldmat,5.75,3,z);
- box(11,.2,.2,goldmat,0,7.7,z);
- // room entrance
- box(2.4,5,.3,wood,0,2.5,z-4.8);
- box(2.2,.12,.15,goldmat,0,5,z-4.6);
+function svgArt(kind,index){
+const palettes=[
+["#192b4d","#b5c9d8","#e5b77b"],
+["#101b37","#334f78","#e9d8ae"],
+["#39202e","#9e6d69","#e6c28d"],
+["#24445b","#b7d5c7","#f1d5a2"],
+["#293e2c","#779b69","#e8c77c"],
+["#142a52","#a32d40","#e6c47f"],
+["#422a3b","#a36a79","#e6cda1"],
+["#1a1a2c","#6b526e","#e9c88b"],
+["#161b28","#54637a","#d6b77d"],
+["#3c2026","#97604c","#e6c58c"],
+["#244c5b","#81a6a2","#e9d7ae"],
+["#1b3442","#6d9c9b","#e6c48c"]
+];
+const p=palettes[index%palettes.length];
+let art="";
+if(index===0){
+art=`<circle cx="160" cy="95" r="60" fill="${p[2]}" opacity=".9"/>
+<path d="M0 210 L100 115 160 175 220 105 320 220Z" fill="${p[0]}"/>
+<path d="M0 235 Q160 170 320 235 V320 H0Z" fill="${p[1]}"/>`;
+}else if(index===1){
+art=`<circle cx="160" cy="150" r="90" fill="${p[1]}"/>
+<circle cx="160" cy="150" r="65" fill="${p[2]}"/>
+<g fill="${p[2]}">${Array.from({length:24},(_,i)=>`<circle cx="${(i*67)%320}" cy="${(i*43)%300}" r="2"/>`).join("")}</g>
+<path d="M0 270 Q80 220 160 265 T320 250 V320 H0Z" fill="${p[0]}"/>`;
+}else if(index===2){
+art=`<path d="M0 0 H320 V320 H0Z" fill="${p[0]}"/>
+<circle cx="160" cy="110" r="60" fill="${p[2]}"/>
+<path d="M55 300 Q70 175 160 185 Q250 175 265 300Z" fill="${p[1]}"/>
+<path d="M120 100 Q160 10 205 90" fill="none" stroke="${p[2]}" stroke-width="8"/>`;
+}else if(index===3){
+art=`<path d="M0 0 H320 V320 H0Z" fill="${p[0]}"/>
+<path d="M0 235 Q80 145 155 220 T320 210 V320 H0Z" fill="${p[1]}"/>
+<circle cx="250" cy="70" r="35" fill="${p[2]}"/>
+<path d="M60 235 Q100 150 140 235" fill="none" stroke="${p[2]}" stroke-width="7"/>`;
+}else if(index===4){
+art=`<path d="M0 0 H320 V320 H0Z" fill="${p[0]}"/>
+<path d="M40 220 L90 130 140 220 195 100 280 220Z" fill="${p[1]}"/>
+<path d="M0 245 H320 V320 H0Z" fill="${p[2]}"/>
+<path d="M95 90 L130 55 165 90 130 125Z" fill="${p[2]}"/>`;
+}else if(index===5){
+art=`<path d="M0 0 H320 V320 H0Z" fill="${p[0]}"/>
+<path d="M0 210 L80 170 160 210 240 170 320 210 V320 H0Z" fill="${p[1]}"/>
+<circle cx="160" cy="95" r="43" fill="${p[2]}"/>
+<path d="M100 300 Q110 195 160 195 Q210 195 220 300Z" fill="${p[2]}"/>`;
+}else if(index===6){
+art=`<path d="M0 0 H320 V320 H0Z" fill="${p[0]}"/>
+<path d="M40 270 Q100 100 160 210 Q220 90 280 270" fill="none" stroke="${p[2]}" stroke-width="9"/>
+<path d="M0 290 Q160 250 320 290" stroke="${p[1]}" stroke-width="6" fill="none"/>`;
+}else if(index===7){
+art=`<path d="M0 0 H320 V320 H0Z" fill="${p[0]}"/>
+<circle cx="160" cy="160" r="90" fill="none" stroke="${p[2]}" stroke-width="5"/>
+<circle cx="160" cy="160" r="65" fill="none" stroke="${p[1]}" stroke-width="4"/>
+<circle cx="160" cy="160" r="9" fill="${p[2]}"/>
+<path d="M160 160 L205 90" stroke="${p[2]}" stroke-width="5"/>`;
+}else if(index===8){
+art=`<path d="M0 0 H320 V320 H0Z" fill="${p[0]}"/>
+<circle cx="160" cy="120" r="70" fill="${p[1]}"/>
+<path d="M0 250 L100 160 160 230 235 140 320 240 V320 H0Z" fill="${p[2]}"/>
+<path d="M120 90 L200 90 M160 50 V160" stroke="${p[0]}" stroke-width="5"/>`;
+}else if(index===9){
+art=`<path d="M0 0 H320 V320 H0Z" fill="${p[0]}"/>
+<rect x="65" y="65" width="190" height="190" rx="5" fill="${p[1]}"/>
+<path d="M90 105 H230 M90 145 H210 M90 185 H225" stroke="${p[2]}" stroke-width="7"/>`;
+}else if(index===10){
+art=`<path d="M0 0 H320 V320 H0Z" fill="${p[0]}"/>
+<path d="M0 230 Q80 160 160 220 T320 210 V320 H0Z" fill="${p[1]}"/>
+<circle cx="160" cy="110" r="50" fill="${p[2]}"/>
+<path d="M100 280 Q115 180 160 180 Q205 180 220 280Z" fill="${p[2]}"/>`;
+}else{
+art=`<path d="M0 0 H320 V320 H0Z" fill="${p[0]}"/>
+<path d="M0 260 Q90 180 160 220 T320 220 V320 H0Z" fill="${p[1]}"/>
+<circle cx="245" cy="75" r="38" fill="${p[2]}"/>
+<path d="M35 230 L95 100 145 230 200 135 260 230" fill="none" stroke="${p[2]}" stroke-width="6"/>`;
 }
-for(let i=0;i<rooms.length*2;i++){
- const light=new THREE.PointLight(0xffc779,18,10);
- light.position.set(0,6,-i*5.5);scene.add(light);
+return `<svg viewBox="0 0 320 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+<defs><linearGradient id="g${index}" x2="0" y2="1"><stop stop-color="${p[1]}"/><stop offset="1" stop-color="${p[0]}"/></linearGradient></defs>
+<rect width="320" height="320" fill="url(#g${index})"/>${art}
+<rect x="7" y="7" width="306" height="306" fill="none" stroke="${p[2]}" stroke-width="3"/>
+</svg>`;
 }
 
-// Character: tall person, black curly hair, plain white T-shirt, black trousers.
-const player=new THREE.Group();
-const body=box(.8,1.05,.42,white,0,2.15,0);body.position.set(0,2.15,0);player.add(body);
-const legs=[];
-for(let x of [-.23,.23]){
- const leg=box(.29,1.05,.32,black,x,1.1,0);player.add(leg);legs.push(leg);
- const shoe=box(.32,.18,.48,black,x,.55,-.06);player.add(shoe);
+function renderRoom(){
+const r=rooms[current];
+$("title").textContent=r.title;
+$("roomTitle").textContent=r.title;
+$("subtitle").textContent=r.sub;
+$("roomDescription").textContent=r.desc;
+$("roomNumber").textContent=String(current+1).padStart(2,"0")+" / "+rooms.length;
+$("art1").innerHTML=svgArt("a",current);
+$("art2").innerHTML=svgArt("b",current);
+$("art3").innerHTML=svgArt("c",current);
+$("largeArt").innerHTML=svgArt("large",current);
+$("progress").innerHTML=rooms.map((x,i)=>`<span class="dot ${i===current?"active":""}"></span>`).join("");
 }
-const neck=cylinder(.13,.13,.2,mat(0xb77f62),0,2.72,0);player.add(neck);
-const head=sphere(.34,mat(0xb77f62),0,3.05,0);player.add(head);
-// curly black hair: many small spheres on top and sides
-const hairmat=mat(0x08080b);
-for(let i=0;i<34;i++){
- const a=Math.random()*Math.PI*2;
- const y=2.98+Math.random()*.36;
- const radius=.29+Math.random()*.08;
- const curl=sphere(.105,hairmat,Math.cos(a)*radius,y,Math.sin(a)*radius);
- player.add(curl);
-}
-player.position.set(0,0,4);
-scene.add(player);
 
-// shadowless player styling, camera follows behind
-const cameraOffset=new THREE.Vector3(0,5.1,8.8);
-function updateCamera(){
- const target=new THREE.Vector3(player.position.x,2.0,player.position.z);
- const offset=cameraOffset.clone().applyAxisAngle(new THREE.Vector3(0,1,0),angle);
- camera.position.copy(target).add(offset);
- camera.lookAt(player.position.x,1.7,player.position.z-2);
+function changeRoom(direction){
+const next=current+direction;
+if(next<0||next>=rooms.length)return;
+$("loading").style.display="flex";
+$("loading").textContent="يتم تجهيز القاعة...";
+setTimeout(()=>{
+current=next;yaw=0;renderRoom();
+$("loading").style.display="none";
+},180);
 }
-updateCamera();
 
-const raycaster=new THREE.Raycaster();
-const pointer=new THREE.Vector2();
-let nearItem=null;
-renderer.domElement.addEventListener('pointerdown',e=>{
- pointer.x=(e.clientX/innerWidth)*2-1;
- pointer.y=-(e.clientY/innerHeight)*2+1;
- raycaster.setFromCamera(pointer,camera);
- const hits=raycaster.intersectObjects(objects,false);
- if(hits.length){
-  const obj=hits[0].object;
-  if(obj.position.distanceTo(player.position)<5){
-   const d=obj.userData.item;
-   document.getElementById('itemicon').textContent=d[0];
-   document.getElementById('itemtitle').textContent=d[1];
-   document.getElementById('itemdesc').textContent=d[2];
-   document.getElementById('overlay').classList.add('show');
-  }
- }
+$("forward").addEventListener("click",()=>changeRoom(1));
+$("back").addEventListener("click",()=>changeRoom(-1));
+
+let pointerStart=null;
+$("world").addEventListener("pointerdown",e=>{
+if(e.target.closest("button")||$("exhibit").classList.contains("open"))return;
+pointerStart={x:e.clientX,y:e.clientY};
 });
-
-document.getElementById('close').onclick=()=>document.getElementById('overlay').classList.remove('show');
-
-function bindHold(id,fn){
- const el=document.getElementById(id);
- el.addEventListener('pointerdown',e=>{e.preventDefault();fn(true)});
- ['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,()=>fn(false)));
-}
-bindHold('up',v=>keys.forward=v);
-bindHold('down',v=>keys.back=v);
-bindHold('left',v=>keys.left=v);
-bindHold('right',v=>keys.right=v);
-bindHold('turnleft',v=>keys.turnleft=v);
-bindHold('turnright',v=>keys.turnright=v);
-
-addEventListener('keydown',e=>{
- if(e.key==='w'||e.key==='ArrowUp')keys.forward=true;
- if(e.key==='s'||e.key==='ArrowDown')keys.back=true;
- if(e.key==='a'||e.key==='ArrowLeft')keys.left=true;
- if(e.key==='d'||e.key==='ArrowRight')keys.right=true;
+$("world").addEventListener("pointermove",e=>{
+if(!pointerStart)return;
+const dx=e.clientX-pointerStart.x;
+pointerStart.x=e.clientX;
+yaw+=dx*.25;
+$("scene").style.transform=`scale(1.02) translateX(${Math.sin(yaw*.017)*12}px)`;
 });
-addEventListener('keyup',e=>{
- if(e.key==='w'||e.key==='ArrowUp')keys.forward=false;
- if(e.key==='s'||e.key==='ArrowDown')keys.back=false;
- if(e.key==='a'||e.key==='ArrowLeft')keys.left=false;
- if(e.key==='d'||e.key==='ArrowRight')keys.right=false;
-});
+$("world").addEventListener("pointerup",()=>pointerStart=null);
+$("world").addEventListener("pointercancel",()=>pointerStart=null);
 
-function updateRoom(){
- const idx=Math.max(0,Math.min(rooms.length-1,Math.floor((-player.position.z+4)/11)));
- if(idx!==currentRoom){
-  currentRoom=idx;
-  document.getElementById('roomname').textContent=rooms[idx].name;
-  document.getElementById('roomdesc').textContent=rooms[idx].desc;
- }
- const nearest=objects.find(o=>o.position.distanceTo(player.position)<4);
- document.getElementById('prompt').style.display=nearest?'block':'none';
-}
+$("art1").addEventListener("click",()=>openExhibit(0));
+$("art2").addEventListener("click",()=>openExhibit(1));
+$("art3").addEventListener("click",()=>openExhibit(2));
 
-let audioCtx=null,oscillators=[],musicOn=false;
-function musicStart(){
- if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();
- audioCtx.resume();
- const master=audioCtx.createGain();master.gain.value=.045;master.connect(audioCtx.destination);
- const notes=[130.81,164.81,196,220,164.81,146.83];
- notes.forEach((freq,i)=>{
-  const o=audioCtx.createOscillator();
-  const g=audioCtx.createGain();
-  o.type='sine';o.frequency.value=freq;
-  g.gain.value=.18;
-  o.connect(g);g.connect(master);o.start();
-  oscillators.push(o);
- });
- musicOn=true;
- document.getElementById('music').textContent='♫ إيقاف الأجواء';
+function openExhibit(i){
+const r=rooms[current];
+$("exhibitTitle").textContent=r.arts[i];
+$("exhibitText").textContent=r.texts[i];
+$("largeArt").innerHTML=svgArt("large",current);
+$("exhibit").classList.add("open");
 }
-function musicStop(){
- oscillators.forEach(o=>{try{o.stop()}catch{}});
- oscillators=[];musicOn=false;
- document.getElementById('music').textContent='♫ تشغيل الأجواء';
-}
-document.getElementById('music').onclick=()=>musicOn?musicStop():musicStart();
+$("closeExhibit").onclick=()=>$("exhibit").classList.remove("open");
 
-document.getElementById('enter').onclick=()=>{
- document.getElementById('start').style.display='none';
- updateCamera();
+$("start").onclick=()=>{
+$("intro").style.display="none";
+$("loading").style.display="none";
+isStarted=true;
 };
 
-function animate(){
- requestAnimationFrame(animate);
- const dt=Math.min(clock.getDelta(),.04);
- if(keys.turnleft)angle+=dt*1.6;
- if(keys.turnright)angle-=dt*1.6;
- let speed=0;
- if(keys.forward)speed=1;
- if(keys.back)speed=-1;
- let side=0;
- if(keys.left)side=-1;
- if(keys.right)side=1;
- const forward=new THREE.Vector3(-Math.sin(angle),0,-Math.cos(angle));
- const right=new THREE.Vector3(Math.cos(angle),0,-Math.sin(angle));
- player.position.addScaledVector(forward,speed*dt*4.1);
- player.position.addScaledVector(right,side*dt*3.2);
- player.position.x=THREE.MathUtils.clamp(player.position.x,-4.7,4.7);
- player.position.z=THREE.MathUtils.clamp(player.position.z,-rooms.length*11+2,7);
- player.rotation.y=angle;
- const walking=Math.abs(speed)+Math.abs(side);
- legs[0].rotation.x=walking?Math.sin(performance.now()*.012)*.45:0;
- legs[1].rotation.x=-legs[0].rotation.x;
- updateCamera();updateRoom();
- renderer.render(scene,camera);
-}
-animate();
+$("musicButton").onclick=()=>{
+alert("لم نضع تسجيلات تجارية غير مرخّصة أو نغمات بديلة على أنها الأغاني الأصلية. يمكن إضافة مشغلات وروابط قانونية للأغاني المختارة عند توفر مصادرها.");
+};
 
-addEventListener('resize',()=>{
- camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
- renderer.setSize(innerWidth,innerHeight);
-});
+renderRoom();
+$("loading").style.display="none";
 </script>
 </body>
 </html>
