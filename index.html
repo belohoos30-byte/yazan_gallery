@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>متحف يزن | The Yazan Museum</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap');
+:root{--wine:#4b1024;--dark:#190b12;--gold:#d5b16c;--cream:#f4e9d5}
+*{box-sizing:border-box}
+body{margin:0;color:var(--cream);font-family:'Cairo',sans-serif;background:radial-gradient(circle at top,#592037 0,#24101a 48%,#10090e 100%);min-height:100vh}
+header{text-align:center;padding:55px 18px 35px;border-bottom:1px solid #b8945260}
+.ornament{color:var(--gold);font-size:25px}
+h1{font-family:'Amiri',serif;font-size:48px;color:var(--gold);margin:8px 0}
+.subtitle{color:#e6d5bd;font-size:14px}
+.intro{max-width:650px;margin:25px auto;padding:0 22px;line-height:2.1;text-align:center}
+.gold-line{width:100px;height:2px;background:var(--gold);margin:22px auto}
+h2{text-align:center;color:var(--gold);font-family:'Amiri',serif;font-size:30px}
+.rooms{max-width:1000px;margin:25px auto 60px;padding:0 17px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:17px}
+.room{min-height:185px;border:1px solid #c6a15d80;background:linear-gradient(145deg,#552037,#24111b);padding:23px 18px;text-align:center;cursor:pointer;transition:.25s;box-shadow:0 8px 22px #0005}
+.room:hover{transform:translateY(-5px);border-color:var(--gold);background:linear-gradient(145deg,#6b2941,#321522)}
+.icon{font-size:34px}
+.room h3{color:var(--gold);font-family:'Amiri',serif;font-size:23px;margin:10px 0 4px}
+.room p{font-size:12px;color:#e6d5bd;margin:0}
+#inside{display:none;max-width:760px;margin:35px auto 70px;padding:30px 23px;border:1px solid var(--gold);background:linear-gradient(145deg,#3e1728,#1c0d15);box-shadow:0 12px 40px #0008;text-align:center}
+#inside h2{font-size:34px}
+#inside .description{line-height:2.2;font-size:16px}
+.back{margin-top:22px;padding:11px 27px;border:1px solid var(--gold);color:var(--gold);background:transparent;font-family:inherit;cursor:pointer}
+footer{text-align:center;padding:25px 15px;color:#c9b38e;border-top:1px solid #b8945240;font-size:12px}
+@media(max-width:500px){h1{font-size:39px}.rooms{grid-template-columns:1fr 1fr;gap:10px}.room{padding:17px 9px;min-height:165px}.room h3{font-size:19px}.room p{font-size:11px}}
+</style>
+</head>
+<body>
+<header>
+<div class="ornament">✦ ❖ ✦</div>
+<h1>متحف يزن</h1>
+<div class="subtitle">THE YAZAN MUSEUM · EST. 2005</div>
+<div class="gold-line"></div>
+<p class="intro">بعض الحكايات لا تُروى من البداية للنهاية، بل تُكتشف غرفةً بعد غرفة.<br>أهلاً بك في مكان صُمّم ليكون رحلة بين الاهتمامات، الذكريات، الموسيقى والتفاصيل الصغيرة.</p>
+<div class="ornament">❖</div>
+</header>
+<main>
+<h2>قاعات المتحف</h2>
+<div class="gold-line"></div>
+<section class="rooms" id="rooms"></section>
+<section id="inside">
+<div class="ornament">✦</div>
+<h2 id="roomTitle"></h2>
+<div class="gold-line"></div>
+<p class="description" id="roomText"></p>
+<button class="back" onclick="showRooms()">العودة إلى الممر الرئيسي ←</button>
+</section>
+</main>
+<footer>متحف يزن · اثنا عشر باباً، وكل باب حكاية مختلفة</footer>
+<script>
+const data = [
+["🏛️","البهو الرئيسي","بداية الحكاية","مدخل كلاسيكي بسجادة خمريّة وثريّا ذهبية. هنا تبدأ الرحلة على أنغام «بخت» لويجز، بنسختها الموسيقية إن توفرت. أول باب، وأول إشارة."],
+["🌌","مرصد الكون","ما وراء السماء","خرائط نجوم ومجسّمات كواكب وكتب عن الفضاء والأسئلة الكبيرة. غرفة واسعة وغامضة، بموسيقى كلاسيكية سينمائية وأجواء تشبه الأوبرا."],
+["📚","العقل والفلسفة","رحلة داخل الأفكار","مكتبة تضم إشارات إلى أفلاطون ونيتشه وتسلا، ومجسّماً للدماغ وتفاصيل عن العلم وفهم الإنسان. هنا الأفكار ليست زينة؛ كل فكرة باب لسؤال جديد."],
+["📺","ممر الطفولة","عالم الطباشير","سبّورة طباشير وذكريات سبيستون وMBC3 وCartoon Network وفلونة. زاوية صغيرة للخيال والرسوم وأيام الطفولة التي لا تحتاج إلى تفسير."],
+["🎮","غرفة الألعاب القديمة","عودة إلى البداية","جهاز PlayStation 2 وشاشة كمبيوتر كلاسيكية وإشارات إلى GTA والفهد الوردي. مساحة للألعاب القديمة والمغامرات التي بقيت في الذاكرة."],
+["⚽","برشلونة والحلم","ألوان لا تُنسى","قميص برشلونة كبير على الجدار، وبجانبه قميص أصغر يحمل اسم يزن. كرة قدم وتفاصيل عن حلم الطفولة بأن يصبح لاعباً. هنا لكل حلم مكانه."],
+["✒️","مكتب الشاعر","لو روحي طير","مكتب خشبي ودفتر مفتوح وقلم، ولمسات من الشعر العراقي والكتابة والوصف. غرفة هادئة تترك للكلمات مساحة كي تعود متى شاءت."],
+["🎼","غرفة الموسيقى","اختر أسطوانتك","مشغّل أسطوانات ومجموعة تسجيلات لويجز ومروان بابلو وسينابتك وأدهم نابلسي ووائل جسار وعمرو دياب وتامر حسني. لا توجد أغنية واحدة مفروضة هنا؛ الزائر يختار ما يريد."],
+["🗾","المنظمة السرّية","اليابان وPUBG","خرائط وملفات مهمات وأختام سرية. غرفة تجمع الحكاية المشتركة عن المنظمة واليابان وPUBG، بروح مغامرة فيها شيء من الجدية وشيء من المزاح."],
+["🗂️","أرشيف اللحظات","تفاصيل لا تُنسى","هنا محفوظة بعض اللقطات بروح فكاهية: «عربيتك ركيكة»، وحكاية PUBG التي انتهت بمغامرة مشتركة، ونكتة «كرسيتين مكسورين بكرسي جديدة». وعلى الرف أغنية «أميرة» لويجز."],
+["🐈","التفاصيل الصغيرة","أشياء تصنع الفرق","مجسّم لبسبوس، وإشارات للحيوانات والسيارات والساعات والإكسسوارات، ودفتر مرتب. زاوية للطبيعة والشواطئ الهادئة، ولمسة طريفة لسيريلاك الصباح."],
+["✨","القاعة الأخيرة","الحادية والعشرون","قاعة هادئة بإضاءة ذهبية وموسيقى «Experience» للودوفيكو إيناودي. ليس الهدف أن نختصر إنساناً في وصف، بل أن نحتفل بسنة جديدة وبكل الأبواب التي لم تُفتح بعد. عيد ميلاد سعيد يا يزن."]
+];
+const rooms=document.getElementById("rooms");
+data.forEach((r,i)=>{
+const card=document.createElement("article");
+card.className="room";
+card.innerHTML=`<div class="icon">${r[0]}</div><h3>${r[1]}</h3><p>${r[2]}</p>`;
+card.onclick=()=>openRoom(i);
+rooms.appendChild(card);
+});
+function openRoom(i){
+document.getElementById("rooms").style.display="none";
+document.getElementById("inside").style.display="block";
+document.getElementById("roomTitle").textContent=data[i][1];
+document.getElementById("roomText").textContent=data[i][3];
+window.scrollTo({top:0,behavior:"smooth"});
+}
+function showRooms(){
+document.getElementById("inside").style.display="none";
+document.getElementById("rooms").style.display="grid";
+window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+</body>
+</html>
+
