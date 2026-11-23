@@ -2,676 +2,467 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#21070d">
-<title>متحف يزن | أرشيف إنسان لا يشبه أحداً</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>متحف يزن</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700;800&display=swap');
-
-:root{
-  --wine:#390b17;
-  --deep:#17070c;
-  --red:#651629;
-  --gold:#c7a45e;
-  --lightgold:#ead49a;
-  --cream:#f0e5ce;
-  --muted:#c7b79c;
-}
-
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Amiri:wght@400;700&display=swap');
 *{box-sizing:border-box}
-body{
-  margin:0;
-  color:var(--cream);
-  background:#100509;
-  font-family:'Cairo',sans-serif;
-  min-height:100vh;
-}
-button{font:inherit}
-button:focus-visible{outline:2px solid var(--lightgold);outline-offset:4px}
-
-#museum{min-height:100vh;overflow:hidden}
-.topbar{
-  padding:22px 18px 15px;
-  text-align:center;
-  background:linear-gradient(180deg,#2c0912,#16060a);
-  border-bottom:1px solid #a17d42;
-  position:relative;
-  z-index:2;
-}
-.eyebrow{
-  color:var(--gold);
-  letter-spacing:3px;
-  font-size:10px;
-}
-.topbar h1{
-  font-family:'Amiri',serif;
-  font-size:clamp(29px,7vw,47px);
-  font-weight:400;
-  margin:2px 0 0;
-}
-.topbar p{font-size:11px;color:#c9b99e;margin:0}
-
-.intro{
-  text-align:center;
-  padding:20px 15px 12px;
-}
-.intro h2{
-  font-family:'Amiri',serif;
-  color:var(--lightgold);
-  font-size:25px;
-  font-weight:400;
-  margin:0 0 5px;
-}
-.intro p{font-size:12px;color:#c6b79f;margin:0;line-height:2}
-
-/* THE HALL */
-.hall-wrap{
-  width:min(100%,950px);
-  margin:auto;
-  padding:0 12px 35px;
-}
-.hall{
-  height:590px;
-  max-height:75vh;
-  min-height:470px;
-  position:relative;
-  overflow:hidden;
-  perspective:700px;
-  border:2px solid #a17d42;
-  background:#251018;
-  isolation:isolate;
-}
-.ceiling{
-  position:absolute;inset:0 0 55% 0;
-  background:linear-gradient(180deg,#17080d,#51202b 75%,#260b13);
-  clip-path:polygon(0 0,100% 0,75% 100%,25% 100%);
-}
-.ceiling:after{
-  content:"";
-  position:absolute;inset:0;
-  background:repeating-linear-gradient(90deg,transparent 0 19%,#c5a15a22 19.3% 19.7%,transparent 20%);
-}
-.backwall{
-  position:absolute;
-  left:25%;right:25%;top:20%;height:48%;
-  background:linear-gradient(90deg,#3b101b,#6a2933 50%,#3b101b);
-  border:5px double #c19a53;
-  box-shadow:inset 0 0 45px #100308;
-}
-.backwall:before,.backwall:after{
-  content:"";
-  position:absolute;
-  top:12%;bottom:12%;
-  width:24%;
-  border:3px solid #bd9651;
-  background:#250a12;
-}
-.backwall:before{left:8%}
-.backwall:after{right:8%}
-.floor{
-  position:absolute;inset:48% 0 0;
-  background:linear-gradient(#2d1018,#16080c);
-  clip-path:polygon(25% 0,75% 0,100% 100%,0 100%);
-}
-.floor:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:repeating-linear-gradient(0deg,transparent 0 34px,#c49c4b22 35px 37px);
-}
-.carpet{
-  position:absolute;
-  left:35%;right:35%;top:49%;bottom:-5%;
-  background:repeating-linear-gradient(0deg,#6b182b 0 25px,#8d2b3b 26px 28px);
-  clip-path:polygon(35% 0,65% 0,100% 100%,0 100%);
-  border-left:2px solid #d1ad65;
-  border-right:2px solid #d1ad65;
-}
-.carpet:after{
-  content:"";
-  position:absolute;inset:5%;
-  border:2px solid #cba65d;
-  opacity:.75;
-}
-.wall-left,.wall-right{
-  position:absolute;top:15%;bottom:18%;width:32%;
-  background:linear-gradient(90deg,#260a12,#642431);
-  border-top:4px solid #b38d4b;
-  border-bottom:4px solid #b38d4b;
-}
-.wall-left{
-  left:-1%;
-  clip-path:polygon(0 0,100% 13%,100% 87%,0 100%);
-}
-.wall-right{
-  right:-1%;
-  clip-path:polygon(0 13%,100% 0,100% 100%,0 87%);
-}
-.wall-left:after,.wall-right:after{
-  content:"";
-  position:absolute;inset:10%;
-  border:3px double #c5a15e;
-  opacity:.7;
-}
-.chandelier{
-  position:absolute;top:3%;left:50%;transform:translateX(-50%);
-  width:100px;height:110px;text-align:center;
-  color:#e6c77e;
-  filter:drop-shadow(0 0 13px #e6bd63);
-  z-index:1;
-}
-.chandelier:before{
-  content:"";
-  position:absolute;top:0;left:49%;height:28px;
-  border-left:2px solid #c9a55e;
-}
-.chandelier:after{
-  content:"✦";
-  font-size:64px;position:absolute;top:20px;left:20px;
-}
-.chandelier span{position:relative;top:82px;font-size:17px}
-.hall-title{
-  position:absolute;top:27%;left:50%;transform:translateX(-50%);
-  font-family:'Amiri',serif;
-  color:#f1d99d;
-  font-size:clamp(17px,4vw,25px);
-  white-space:nowrap;
-  text-shadow:0 2px 8px #000;
-  z-index:2;
-}
-.hall-subtitle{
-  position:absolute;top:36%;left:50%;transform:translateX(-50%);
-  color:#e5cfa2;font-size:9px;letter-spacing:2px;white-space:nowrap;z-index:2;
-}
-.doors{
-  position:absolute;inset:17% 2% 20%;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  grid-template-rows:repeat(6,1fr);
-  gap:7px 36%;
-  z-index:3;
-}
-.door{
-  min-width:0;
-  border:2px solid #c6a15d;
-  border-radius:50% 50% 2px 2px / 18% 18% 2px 2px;
-  background:linear-gradient(90deg,#280912,#6a2430 48%,#2c0a14);
-  color:#f0d9a0;
-  box-shadow:inset 0 0 0 4px #4b1723,inset 0 0 0 6px #b58d4a,0 5px 12px #0009;
-  padding:5px 3px;
-  font-size:clamp(9px,2.3vw,12px);
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:2px;
-  text-shadow:0 2px 5px #000;
-  transition:.2s;
-}
-.door:nth-child(odd){transform:perspective(250px) rotateY(9deg)}
-.door:nth-child(even){transform:perspective(250px) rotateY(-9deg)}
-.door:hover{filter:brightness(1.35);border-color:#ffe4a0}
-.door .num{font-size:9px;color:#d4b76e}
-.door .door-icon{font-size:19px}
-.hall-note{
-  position:absolute;bottom:8px;left:0;right:0;
-  text-align:center;font-size:10px;color:#e2c98d;
-  z-index:4;text-shadow:0 2px 5px #000;
-}
-
-/* ROOM */
-.room-screen{
-  display:none;
-  min-height:calc(100vh - 120px);
-  padding:22px 15px 45px;
-  background:
-    radial-gradient(ellipse at 50% 0%,#713040 0,#35101c 45%,#14070c 100%);
-}
-.room-screen.active{display:block}
-.room-inner{max-width:900px;margin:auto}
-.back{
-  background:transparent;border:1px solid var(--gold);
-  color:var(--lightgold);padding:8px 15px;
-  cursor:pointer;font-size:12px;
-}
-.room-heading{text-align:center;margin:20px 0 25px}
-.room-number{color:var(--gold);font-size:10px;letter-spacing:3px}
-.room-heading h2{
-  font-family:'Amiri',serif;font-size:clamp(29px,7vw,45px);
-  color:#f0d99e;font-weight:400;margin:4px 0;
-}
-.room-heading p{font-size:12px;color:#d4c2a7;margin:0}
-.room-architecture{
-  border:5px double #b58e4e;
-  padding:17px;
-  background:
-    linear-gradient(90deg,#2a0b13dd,#571d2bdd,#2a0b13dd),
-    repeating-linear-gradient(90deg,#461521 0 70px,#55202c 71px 73px);
-  box-shadow:inset 0 0 45px #100308,0 15px 40px #0008;
-}
-.room-scene{
-  min-height:170px;
-  display:flex;align-items:center;justify-content:center;
-  gap:12px;flex-wrap:wrap;
-  border:1px solid #b28d4e66;
-  background:radial-gradient(ellipse,#a47b4122,transparent 70%);
-  padding:15px;
-  margin-bottom:18px;
-}
-.scene-object{
-  font-size:clamp(36px,9vw,65px);
-  filter:drop-shadow(0 5px 5px #0009);
-}
-.artifacts{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(135px,1fr));
-  gap:12px;
-}
-.artifact{
-  background:linear-gradient(145deg,#4a1723,#210a11);
-  border:1px solid #b28c4d;
-  min-height:150px;
-  color:var(--cream);
-  padding:14px 10px;
-  cursor:pointer;
-  text-align:center;
-  box-shadow:inset 0 0 18px #0005;
-  transition:.2s;
-}
-.artifact:hover{transform:translateY(-3px);background:#642438}
-.artifact .object{font-size:39px;display:block;margin-bottom:8px}
-.artifact strong{display:block;color:#e9d39b;font-size:12px}
-.artifact small{display:block;color:#c7b69b;font-size:10px;margin-top:5px;line-height:1.8}
-.room-quote{
-  margin:22px auto 0;
-  max-width:650px;
-  text-align:center;
-  color:#e4c98e;
-  font-family:'Amiri',serif;
-  font-size:21px;
-  line-height:1.9;
-}
-.room-footer{text-align:center;color:#9e8b73;font-size:10px;margin-top:22px}
-
-/* OBJECT DETAIL */
-.detail{
-  display:none;
-  position:fixed;inset:0;
-  background:#090306eF;
-  z-index:20;
-  align-items:center;justify-content:center;
-  padding:20px;
-}
-.detail.open{display:flex}
-.detail-box{
-  max-width:480px;width:100%;
-  border:2px solid var(--gold);
-  background:linear-gradient(145deg,#521b29,#1b080e);
-  padding:25px 20px;
-  text-align:center;
-  box-shadow:0 15px 70px #000;
-}
-.detail-icon{font-size:52px}
-.detail-box h3{font-family:'Amiri',serif;font-size:27px;color:#f1d99d;margin:8px}
-.detail-box p{font-size:13px;line-height:2;color:#e1d1b8}
-.close{
-  background:#9b753b;color:#18080d;
-  border:0;padding:9px 22px;cursor:pointer;
-  margin-top:10px;
-}
-footer{
-  text-align:center;padding:25px 15px 35px;
-  color:#a99475;font-size:10px;line-height:2;
-  border-top:1px solid #8e6b3c55;
-}
-@media(max-width:430px){
-  .hall{height:560px}
-  .doors{gap:7px 32%}
-  .door{font-size:9px}
-  .room-architecture{padding:10px}
-  .artifacts{grid-template-columns:repeat(2,minmax(0,1fr))}
-}
+body{margin:0;background:#10070b;color:#f3e4c3;font-family:Cairo,Arial,sans-serif;overflow:hidden}
+#game{position:fixed;inset:0}
+canvas{display:block;width:100%;height:100%}
+#top{position:absolute;top:0;left:0;right:0;text-align:center;padding:12px;background:linear-gradient(#16070de8,transparent);pointer-events:none}
+#top h1{font:32px Amiri,serif;color:#e4c17a;margin:0;text-shadow:0 2px 8px #000}
+#top small{font-size:10px;letter-spacing:2px;color:#d6c29c}
+#help{position:absolute;top:80px;left:12px;background:#1b0b10cc;border:1px solid #ad874b;padding:9px 12px;border-radius:8px;font-size:10px;max-width:165px;line-height:1.9}
+#prompt{position:absolute;bottom:155px;left:50%;transform:translateX(-50%);background:#18080edb;border:1px solid #d0ac65;border-radius:25px;padding:8px 16px;font-size:12px;display:none;white-space:nowrap}
+#info{position:absolute;bottom:0;left:0;right:0;min-height:110px;padding:12px 16px 18px;background:linear-gradient(transparent,#16070df5 25%);text-align:center;pointer-events:none}
+#info h2{font:24px Amiri,serif;color:#e8c77e;margin:0}
+#info p{font-size:11px;line-height:1.8;margin:2px auto;max-width:650px;color:#e5d6bb}
+#controls{position:absolute;bottom:120px;left:15px;display:grid;grid-template-columns:48px 48px 48px;grid-template-rows:48px 48px;gap:5px;direction:ltr}
+.ctrl{border:1px solid #c9a45d;background:#30111dcc;color:#f4dfae;border-radius:12px;font-size:22px;touch-action:none}
+#up{grid-column:2;grid-row:1}
+#left{grid-column:1;grid-row:2}
+#down{grid-column:2;grid-row:2}
+#right{grid-column:3;grid-row:2}
+#turn{position:absolute;bottom:120px;right:15px;display:flex;flex-direction:column;gap:8px}
+#turn button{width:55px;height:48px;border:1px solid #c9a45d;background:#30111dcc;color:#f4dfae;border-radius:12px;font-size:19px;touch-action:none}
+#music{position:absolute;top:82px;right:12px;border:1px solid #c9a45d;background:#241019;color:#f4dfae;padding:8px 11px;border-radius:8px;font-size:11px}
+#soundnote{position:absolute;top:124px;right:12px;color:#d4c29e;font-size:9px;max-width:155px;text-align:right}
+#overlay{display:none;position:absolute;inset:0;background:#10070bf2;align-items:center;justify-content:center;padding:20px}
+#overlay.show{display:flex}
+#card{width:min(440px,100%);max-height:80%;overflow:auto;border:2px solid #b89452;background:linear-gradient(145deg,#55202c,#1b090f);padding:23px;text-align:center;box-shadow:0 0 45px #000}
+#card .big{font-size:55px}
+#card h2{font:29px Amiri,serif;color:#efd18e;margin:5px}
+#card p{font-size:13px;line-height:2;color:#f1e4ce}
+#close{background:#b38c4d;color:#1a090e;border:0;padding:9px 25px;font:inherit;margin-top:8px}
+#start{position:absolute;inset:0;background:radial-gradient(ellipse,#652638,#16070d 70%);display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}
+#startbox{max-width:480px}
+#start h1{font:clamp(40px,9vw,65px) Amiri,serif;color:#efd18e;margin:0}
+#start p{font-size:13px;line-height:2;color:#e4d4b8}
+#enter{background:#b38c4d;color:#1a090e;border:0;padding:12px 30px;font:700 15px Cairo;cursor:pointer}
+@media(min-width:700px){#controls,#turn{opacity:.65}}
 </style>
 </head>
-
 <body>
-<div id="museum">
+<div id="game"></div>
 
-<header class="topbar">
-  <div class="eyebrow">AN ARCHIVE OF A HUMAN BEING</div>
+<div id="top">
+ <h1>متحف يزن</h1>
+ <small>THE YAZAN MUSEUM · 26 NOVEMBER</small>
+</div>
+
+<div id="help">تحرّك بالأزرار أو WASD<br>لفّ بالكاميرا من اليمين واليسار<br>اقترب من القطع واضغط عليها</div>
+<button id="music">♫ تشغيل الأجواء</button>
+<div id="soundnote">موسيقى أصلية مولّدة داخل الموقع، وليست تسجيلات الأغاني التجارية.</div>
+<div id="prompt">اضغط على القطعة لاكتشافها</div>
+
+<div id="controls">
+ <button class="ctrl" id="up">↑</button>
+ <button class="ctrl" id="left">←</button>
+ <button class="ctrl" id="down">↓</button>
+ <button class="ctrl" id="right">→</button>
+</div>
+<div id="turn">
+ <button id="turnleft">↶</button>
+ <button id="turnright">↷</button>
+</div>
+
+<div id="info">
+ <h2 id="roomname">الردهة الرئيسية</h2>
+ <p id="roomdesc">ابدأ جولتك. أمامك عالم من الاهتمامات والذكريات.</p>
+</div>
+
+<div id="overlay">
+ <div id="card">
+  <div class="big" id="itemicon"></div>
+  <h2 id="itemtitle"></h2>
+  <p id="itemdesc"></p>
+  <button id="close">العودة للجولة</button>
+ </div>
+</div>
+
+<div id="start">
+ <div id="startbox">
   <h1>متحف يزن</h1>
-  <p>26 نوفمبر 2005 — 26 نوفمبر 2026</p>
-</header>
-
-<section id="hall-screen">
-  <div class="intro">
-    <h2>ليس كل ما يستحق الاكتشاف موجوداً في الكتب</h2>
-    <p>اثنا عشر باباً، وكل باب يحتفظ بجزء من الحكاية.<br>اختر باباً وادخل.</p>
-  </div>
-
-  <div class="hall-wrap">
-    <div class="hall">
-      <div class="ceiling"></div>
-      <div class="backwall"></div>
-      <div class="wall-left"></div>
-      <div class="wall-right"></div>
-      <div class="floor"></div>
-      <div class="carpet"></div>
-      <div class="chandelier"><span>✧</span></div>
-      <div class="hall-title">أهلاً بك في عالم يزن</div>
-      <div class="hall-subtitle">TAKE YOUR TIME · LOOK CLOSER</div>
-
-      <div class="doors" id="doors"></div>
-      <div class="hall-note">كل باب يقود إلى اهتمام مختلف… لا تتعجل الجولة.</div>
-    </div>
-  </div>
-</section>
-
-<section id="room-screen" class="room-screen">
-  <div class="room-inner">
-    <button class="back" onclick="goBack()">← العودة إلى الممر</button>
-    <div class="room-heading">
-      <div class="room-number" id="room-number"></div>
-      <h2 id="room-title"></h2>
-      <p id="room-subtitle"></p>
-    </div>
-    <div class="room-architecture">
-      <div class="room-scene" id="room-scene"></div>
-      <div class="artifacts" id="artifacts"></div>
-    </div>
-    <div class="room-quote" id="room-quote"></div>
-    <div class="room-footer">انظر إلى القطع المعروضة… لكل واحدة حكاية.</div>
-  </div>
-</section>
-
-<div class="detail" id="detail" onclick="closeDetail(event)">
-  <div class="detail-box">
-    <div class="detail-icon" id="detail-icon"></div>
-    <h3 id="detail-title"></h3>
-    <p id="detail-text"></p>
-    <button class="close" onclick="closeDetail()">إغلاق</button>
-  </div>
+  <p>مكان صُمّم لتتجوّل فيه، وتكتشف قاعاته ومعروضاته بنفسك.<br>خذ وقتك… الجولة إلك.</p>
+  <button id="enter">ادخل المتحف</button>
+ </div>
 </div>
 
-<footer>
-  <div>متحف صغير عن عالم واسع.</div>
-  <div>ليس سيرة ذاتية، ولا محاولة لوضع إنسان في إطار.</div>
-  <div>بل مجموعة أشياء واهتمامات وتفاصيل تستحق أن تُرى.</div>
-</footer>
-</div>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
 
-<script>
-const rooms = [
-{
- title:"ردهة البداية",
- subtitle:"The First Impression",
- icon:"🏛️",
- scene:["🕯️","🎼","🥀","📜","✨"],
- quote:"بعض الأشخاص لا يمكن اختصارهم في انطباع أول… لكن لا بد من بابٍ نبدأ منه.",
- items:[
-  ["🎵","بخت","موسيقى ويجز في استقبال الجولة. اختيار له مكانه في الذاكرة، وليس مجرد أغنية في الخلفية."],
-  ["🧭","الاستقلال","المساحة الشخصية والاستقلالية من الأشياء المهمة في عالمه. يحب أن يكون له طريقه وقراراته."],
-  ["⚖️","المبادئ","الوضوح والصدق والمواقف التي لا تتغير لمجرد إرضاء الآخرين."],
-  ["🪞","الانطباع","يلاحظ التفاصيل: النظرات، حركة اليدين، نبرة الصوت، وطريقة حضور الشخص."],
-  ["🔑","المفتاح","فكرة أن لكل إنسان مفتاحاً أو كلمة سر خاصة به؛ وأن فهم الناس يحتاج أكثر من نظرة سريعة."]
- ]
-},
-{
- title:"مرصد الكون",
- subtitle:"The Cosmos Observatory",
- icon:"🌌",
- scene:["🪐","🌙","🔭","⭐","☄️"],
- quote:"من السماء إلى الأسئلة التي لا تنتهي… الفضول لا يحتاج دائماً إلى إجابة نهائية.",
- items:[
-  ["🌌","الفضاء","النجوم والكواكب والمجرات واتساع الكون."],
-  ["🔭","علم الفلك","الاهتمام بالظواهر الفلكية ومحاولة فهم ما يحدث خارج عالمنا."],
-  ["🪐","الأبراج","الفضول تجاه الأبراج والتنجيم والرموز المرتبطة بها، بوصفها موضوعاً يثير اهتمامه."],
-  ["⚡","الطاقة والهالة","اهتمام بالأفكار المتعلقة بالطاقة والهالة والقوى غير المرئية؛ وهي موضوعات تختلف تفسيراتها عن الأدلة العلمية."],
-  ["🌀","القوى الخفية","الغموض والظواهر التي تستدعي التساؤل، خصوصاً حين يكون وراءها سبب أو فكرة تستحق البحث."],
-  ["🎻","موسيقى الكون","موسيقى كلاسيكية واسعة ومهيبة، مع أجواء كورالية غامضة تشبه افتتاحية فيلم عن المجرات."]
- ]
-},
-{
- title:"مكتبة العقل والأسئلة",
- subtitle:"The Library of Thought",
- icon:"📚",
- scene:["📚","🧠","🖋️","🏺","⚖️"],
- quote:"لا تكفي الإجابة الجاهزة دائماً. أحياناً تكون قيمة السؤال في الطريق الذي يفتحه.",
- items:[
-  ["🧠","علم النفس","فهم الشخصية والسلوك والدوافع وما الذي يحرك الإنسان."],
-  ["🎭","قراءة الشخصيات","الاهتمام بتحليل الناس من تصرفاتهم ونظراتهم وأصواتهم ولغة أجسادهم."],
-  ["♟️","التلاعب والتأثير","قراءة موضوعات التأثير النفسي والتلاعب لفهمها، لا لاعتبارها فضيلة أو مهارة أخلاقية."],
-  ["📖","الفلسفة","أسئلة الوجود والمعنى والحرية والحياة وما وراء الأشياء الظاهرة."],
-  ["🏛️","أفلاطون","من الأسماء التي ارتبطت باهتمامه بالفلسفة والتفكير."],
-  ["🖋️","نيتشه","قرأ له، ووجد في عالم الفلسفة مساحة للأسئلة والأفكار."],
-  ["⚡","تسلا","من الأسماء التي يذكرها ضمن اهتماماته بالعلم والأفكار والشخصيات المؤثرة."],
-  ["📜","الأديان والتاريخ","قراءة عن الأديان وتاريخها، والحضارات، والأفكار التي شكلت المجتمعات."],
-  ["🧬","تطوير الذات","فهم النفس، اكتشاف الأخطاء، التعلم منها، ومحاولة أن يصبح الإنسان أكثر وعياً."],
-  ["🎼","الموسيقى","مقطوعة كلاسيكية ذات حضور قوي ووقار يليق بمكتبة الأسئلة."]
- ]
-},
-{
- title:"طفولة لم تغادر تماماً",
- subtitle:"The Childhood Gallery",
- icon:"📺",
- scene:["🚀","🧽","🖍️","🏝️","📺"],
- quote:"كبرت السنوات، لكن بعض العوالم القديمة ما زالت تعرف طريقها إلينا.",
- items:[
-  ["🚀","سبيستون","ذكريات الطفولة مع عالم سبيستون وبرامجه."],
-  ["📺","Cartoon Network","قناة من القنوات التي صنعت جزءاً من ذكريات الطفولة."],
-  ["🎨","MBC3","ذكريات برامج ورسوم متحركة من أيام الطفولة."],
-  ["🖍️","عالم الطباشير","من العوالم الكرتونية التي بقيت في الذاكرة."],
-  ["🏝️","فلونة","حكاية الجزيرة والحياة البسيطة والمغامرة وسط الطبيعة."],
-  ["🎶","موسيقى الذكريات","هنا مكان موسيقى كرتونية قديمة؛ لم يُحسم اسم مقطوعة واحدة، لذلك تبقى الرفوف مفتوحة للذكرى التي يختارها."]
- ]
-},
-{
- title:"صالة الألعاب القديمة",
- subtitle:"The Retro Arcade",
- icon:"🕹️",
- scene:["🎮","🟩","🚗","⛏️","🕹️"],
- quote:"بعض الألعاب لا نعود إليها لنفوز… بل لنستعيد الإحساس الذي كان معها.",
- items:[
-  ["⛏️","Minecraft","عالم مفتوح للبناء والتجربة والاستكشاف."],
-  ["🏙️","GTA","من الألعاب التي لها مكان في قائمة اهتماماته."],
-  ["🏰","Clash of Clans","التخطيط وبناء القرية والهجوم والدفاع."],
-  ["🐆","Pink Panther","الفهد الوردي وذكريات الألعاب القديمة."],
-  ["🕹️","ألعاب زمان","الألعاب القديمة التي ارتبطت بمرحلة مختلفة من الحياة."],
-  ["💻","اللابتوب","مساحة للتعلم واللعب والتجربة، وليس مجرد جهاز."],
-  ["🎼","موسيقى الألعاب","مكان لموسيقى GTA القديمة وأجواء الألعاب الكلاسيكية."]
- ]
-},
-{
- title:"مدرج برشلونة",
- subtitle:"The Football Stand",
- icon:"⚽",
- scene:["🔵","🔴","⚽","🏟️","🏆"],
- quote:"هناك أحلام تبدأ في الملعب، حتى لو أخذتنا الحياة إلى ملاعب أخرى.",
- items:[
-  ["🔵🔴","برشلونة","فريقه الذي يشجعه، وأجواء النادي وألوانه."],
-  ["⚽","كرة القدم","اهتمام بكرة القدم ومتابعة أجوائها."],
-  ["👦","حلم الطفولة","كان لديه حلم أن يصبح لاعب كرة قدم."],
-  ["👕","القميص الكبير","قميص برشلونة كبير في واجهة هذا المدرج."],
-  ["👕","القميص الصغير","وبجانبه قميص أصغر يحمل معنى البدايات وأحلام الطفولة."],
-  ["🏟️","المدرج","هتافات الجمهور وأجواء الملعب وموسيقى كرة القدم."]
- ]
-},
-{
- title:"غرفة الشاعر",
- subtitle:"The Poet's Room",
- icon:"🖋️",
- scene:["📜","🪶","🌹","🌙","🎙️"],
- quote:"حتى الكلمات التي نظن أننا فقدناها قد تترك أثراً فينا.",
- items:[
-  ["🪶","الشعر العراقي","ميل واضح للشعر العراقي وما يحمله من صور ومشاعر ولهجة."],
-  ["📜","لو روحي طير","أغنية لها مكان خاص في هذا الركن."],
-  ["✍️","الكتابة","كانت لديه تجربة مع كتابة الشعر والوصف والتعبير."],
-  ["🌙","موهبة قديمة","يقول إنه يشعر أن موهبته في الكتابة خفّت مع الوقت؛ لكن ما كُتب لا يصبح بلا قيمة لمجرد مرور الزمن."],
-  ["🎙️","صوت القصيدة","مساحة للكلمات التي تُقال بصوت، وللمعاني التي تبقى بعد انتهاء الأغنية."]
- ]
-},
-{
- title:"صالون الموسيقى",
- subtitle:"The Listening Room",
- icon:"🎧",
- scene:["🎼","💿","🎹","🎧","🎙️"],
- quote:"الموسيقى ليست نوعاً واحداً؛ أحياناً تحتاج إلى إيقاع، وأحياناً إلى هدوء.",
- items:[
-  ["🎤","ويجز","من الفنانين المفضلين لديه، ومن الأسماء الحاضرة بقوة في ذائقته الموسيقية."],
-  ["💿","بخت","من الأغاني التي اختارها للردهة الرئيسية."],
-  ["💿","أميرة","لها مكان في أرشيف الذكريات."],
-  ["🎧","مروان بابلو","من الأسماء الموجودة في قائمة استماعه."],
-  ["🎧","Synaptik","من الفنانين الذين يستمع إليهم."],
-  ["🎙️","أدهم نابلسي","ضمن ذائقته الموسيقية."],
-  ["🎙️","وائل جسار","من الأصوات التي يعرفها ويستمع إليها."],
-  ["🎙️","عمرو دياب","من الأسماء الموجودة في قائمته."],
-  ["🎙️","تامر حسني","من الفنانين الذين يستمع إليهم."],
-  ["🎶","Bring Me to Life","من الأغاني التي اختارها."],
-  ["🎶","خليك معايا","أغنية ضمن قائمته."],
-  ["🎶","حبك يداويني","من الأغاني التي ذكرها."],
-  ["🚗","موسيقى السيارة","للأغاني مكان مختلف حين تكون الرحلة بالسيارة، خصوصاً في الشتاء."],
-  ["💿","اختر أسطوانتك","هذا الركن مخصص لاختيار الزائر أسطوانة الموسيقى التي يريد أن يسمعها."]
- ]
-},
-{
- title:"غرفة الغموض والملفات السرية",
- subtitle:"The Secret Files",
- icon:"🕵️",
- scene:["🗝️","🗾","🎯","🕶️","📁"],
- quote:"الغموض جميل حين يكون وراءه خيط يمكن تتبعه… لا حين يكون مجرد ضباب.",
- items:[
-  ["🕵️","التحقيق","الاهتمام بالألغاز والتحقيقات وكشف التفاصيل."],
-  ["📁","الملفات السرية","الأفكار الغامضة ونظريات المؤامرة السياسية وما يرتبط بها من أسئلة؛ مع التمييز بين الادعاء والدليل."],
-  ["🗾","اليابان","اليابان حاضرة في هذا الركن كوجهة وثقافة ومصدر فضول."],
-  ["🎮","PUBG","اللعبة التي دخلت في بعض الذكريات والمواقف الطريفة."],
-  ["🎯","التكتيك","التخطيط والانتباه للتفاصيل ومحاولة فهم ما يحدث قبل اتخاذ القرار."],
-  ["🕶️","أجواء التجسس","موسيقى مغامرات وتحقيقات وأجواء سرية، مع لمسة خفيفة من الفكاهة."],
-  ["🔐","الشفرة","ليس كل لغز يحتاج إلى حل فوري؛ أحياناً يكفي أن نعرف من أين نبدأ."]
- ]
-},
-{
- title:"أرشيف المواقف والذكريات",
- subtitle:"The Memory Archive",
- icon:"🗃️",
- scene:["📷","🗃️","🎮","🪑","💬"],
- quote:"أحياناً أكثر ما يبقى من الحكايات هو التفاصيل التي لم تكن تبدو مهمة وقتها.",
- items:[
-  ["🗣️","«عربيتك ركيكة»","جملة من الأرشيف، تُعرض هنا كذكرى طريفة لا كدرس في اللغة."],
-  ["🎮","موقف PUBG","واحد من المواقف المرتبطة باللعب والضحك."],
-  ["🪑","كرسيتين مكسورين بكرسي جديدة","عنوان ملف يحتاج إلى تفسيره الخاص… ولا داعي لأن نشرح النكتة أكثر من اللازم."],
-  ["🎵","أميرة","اختيرت لتكون موسيقى هذا الأرشيف."],
-  ["📦","التفاصيل الصغيرة","أشياء قد تبدو عادية جداً، لكنها تصبح ذكرى لأنها حدثت في وقت محدد ومع أشخاص محددين."],
-  ["🕰️","الوقت","الأرشيف لا يدّعي أنه يحفظ كل شيء؛ هو يحتفظ ببعض العلامات التي تستحق ألا تُنسى."]
- ]
-},
-{
- title:"خزانة التفاصيل الصغيرة",
- subtitle:"The Cabinet of Curiosities",
- icon:"🧩",
- scene:["🐈","🥣","⌚","🚘","🌊"],
- quote:"أحياناً التفاصيل الصغيرة تقول عن الإنسان أكثر مما تقوله العناوين الكبيرة.",
- items:[
-  ["🐈","بسبوس","القط بسبوس، والاهتمام بالقطط والحيوانات عموماً."],
-  ["🐾","الحيوانات","يحب الحيوانات ولا يحب أن يتعرض لها أحد بالإزعاج أو الأذى."],
-  ["🚘","السيارات","اهتمام بالسيارات وتفاصيلها."],
-  ["⌚","الساعات والإكسسوارات","الساعات والإكسسوارات من الأشياء التي تلفت انتباهه."],
-  ["👔","الستايل","يميل إلى اللبس الرياضي الكاجوال المرتب."],
-  ["🧴","الترتيب والعناية","يحب النظام والترتيب والاهتمام بالمظهر."],
-  ["📷","الكاميرا","ليس من محبي التصوير."],
-  ["🥩","الطعام","يميل إلى اللحم والبروتين والبيض."],
-  ["🥣","السيريلاك","السيريلاك له مكان خاص في القائمة… وصندوق يومي يبدو مطلباً لا يقبل التفاوض."],
-  ["🌊","البحر الهادئ","يحب الشواطئ والطبيعة الهادئة بعيداً عن الزحام."],
-  ["🧳","المغامرة","السفر والخروج وتجربة أشياء جديدة."],
-  ["💙","الألوان","الأزرق والسماوي من ألوانه المفضلة."]
- ]
-},
-{
- title:"قاعة الطريق القادم",
- subtitle:"The Road Ahead",
- icon:"🧳",
- scene:["🇩🇪","💻","📈","🌲","🛣️"],
- quote:"ليس ضرورياً أن تكون كل الطرق واضحة من البداية؛ يكفي أن يكون هناك شيء يستحق المحاولة.",
- items:[
-  ["🇩🇪","ألمانيا","من البلدان التي يتمنى زيارتها."],
-  ["🗣️","اللغة الألمانية","يتعلم الألمانية ويهتم بتطوير نفسه فيها."],
-  ["💻","C++","يتعلم لغة البرمجة C++ بشكل مستقل، مستعيناً بفيديوهات يوتيوب واللابتوب."],
-  ["🧠","التعلم الذاتي","يحب أن يبحث ويتعلم بنفسه ويكتشف الموضوع من أكثر من مصدر."],
-  ["💪","الرياضة","اهتمام باللياقة البدنية وكمال الأجسام والتدريب."],
-  ["🧍","الجسم والعقل","ينظر إلى الإنسان من جوانب متعددة: الجسد والنفس والطاقة، مع اهتمام بالعلم وفهم الإنسان."],
-  ["🌲","الطبيعة","السفر إلى أماكن هادئة، والطبيعة والشواطئ التي لا تزدحم بالناس."],
-  ["💼","العمل والمال","يهتم بالفرص والعمل وكسب المال وإنجاز شيء ملموس."],
-  ["📈","الأهداف","يحب أن يتقدم ويتعلم من أخطائه، ولا يحب أن يشعر أن أيامه تضيع بلا معنى."],
-  ["🚶","الخروج والتجربة","يحب الطلعات والنشاطات والجيم وتجربة أشياء جديدة."]
- ]
-},
-{
- title:"القاعة الأخيرة",
- subtitle:"The Birthday Hall",
- icon:"🎂",
- scene:["🎂","🕯️","🎹","🌟","🥂"],
- quote:"إلى سنة جديدة من التجارب، والأسئلة، والقرارات، والطرق التي لم تُكتشف بعد.",
- items:[
-  ["🎂","26 نوفمبر","تاريخ الميلاد: 26 نوفمبر 2005. وفي 26 نوفمبر 2026 يصبح العمر 21 سنة."],
-  ["🎹","Experience","مقطوعة لودوفيكو إيناودي، اختيرت لترافق القاعة الأخيرة."],
-  ["🌟","التجربة","كل سنة تضيف إلى الإنسان شيئاً: معرفة، تجربة، خطأ، قراراً أو بداية جديدة."],
-  ["🧭","الفرص","الأمل في القادم، والقدرة على رؤية فرصة حتى بعد يوم لم يسر كما خُطط له."],
-  ["🔑","المفتاح","ليس المطلوب أن تكون كل الإجابات جاهزة. يكفي أن يبقى الفضول حياً."],
-  ["🎁","هدية المتحف","هذه القاعة ليست حكماً على شخص ولا تعريفاً نهائياً به؛ إنها مجموعة تفاصيل واهتمامات جُمعت في مكان واحد."]
- ]
-}
+const root=document.getElementById('game');
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x16090e);
+scene.fog=new THREE.Fog(0x16090e,18,65);
+
+const camera=new THREE.PerspectiveCamera(65,innerWidth/innerHeight,.1,150);
+const renderer=new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.8));
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.15;
+root.appendChild(renderer.domElement);
+
+scene.add(new THREE.HemisphereLight(0xffdfbd,0x24101a,2));
+const mainLight=new THREE.PointLight(0xffcf83,90,40);
+mainLight.position.set(0,8,0);scene.add(mainLight);
+
+const gold=0xc49b54,wine=0x541b2a,dark=0x241018,cream=0xe6d5b4;
+const mat=(color,rough=.7)=>new THREE.MeshStandardMaterial({color,roughness:rough});
+const wood=mat(0x32151d),red=mat(0x641e30),goldmat=mat(gold,.35),wall=mat(0x542631),black=mat(0x09090c),white=mat(0xf0eee8);
+const floorMat=mat(0x3b1d22);
+const objects=[];
+const rooms=[
+{ name:'الردهة الرئيسية',desc:'بداية الجولة. هنا تلتقي الموسيقى والفضول والاستقلالية.',items:[
+['🎵','موسيقى ويجز','«بخت» هي الاختيار الموسيقي للمدخل. يمكن لاحقاً ربط نسخة مرخّصة من الـCover هنا.'],
+['🧭','الاستقلال','المساحة الشخصية والاستقلالية والقدرة على اختيار الطريق الخاص.'],
+['⚖️','المبادئ','الصدق والوضوح والتمسك بالمبادئ وعدم التصنع.'],
+['🔑','مفتاح الإنسان','فكرة أن لكل شخص مفتاحاً خاصاً، وأن فهم الناس يحتاج إلى الانتباه والتأني.']
+]},
+{ name:'مرصد الكون',desc:'الفضاء والفلك والأسئلة التي تتجاوز حدود الأرض.',items:[
+['🌌','الفضاء','النجوم والكواكب والمجرات واتساع الكون.'],
+['🔭','علم الفلك','الاهتمام بالظواهر الفلكية ومحاولة فهمها علمياً.'],
+['🪐','الأبراج','فضول تجاه الأبراج والتنجيم والرموز المرتبطة بها.'],
+['⚡','الطاقة والهالة','اهتمام بأفكار الطاقة والهالة والقوى الخفية، مع التمييز بين المعتقدات والأدلة العلمية.'],
+['🎼','موسيقى المرصد','أجواء أوركسترالية غامضة وكورالية.']
+]},
+{ name:'مكتبة العقل',desc:'الفلسفة وعلم النفس والتاريخ وفهم الإنسان.',items:[
+['🧠','علم النفس','فهم الشخصية والسلوك والدوافع.'],
+['🎭','قراءة الشخصيات','الانتباه للنظرات وحركة اليدين ونبرة الصوت وطريقة الحضور.'],
+['📖','الفلسفة','أسئلة الوجود والمعنى والحرية والحياة.'],
+['🏛️','أفلاطون ونيتشه','أسماء ارتبطت بقراءاته واهتمامه بالفلسفة.'],
+['⚡','تسلا','من الشخصيات التي تثير اهتمامه.'],
+['📜','الأديان والتاريخ','قراءة عن الأديان والحضارات والتاريخ والفكر.'],
+['♟️','التأثير والتلاعب','اهتمام بفهم أساليب التأثير النفسي والتلاعب.'],
+['🧬','تطوير الذات','فهم النفس والتعلم من الأخطاء وتطوير الشخصية.']
+]},
+{ name:'قاعة الطفولة',desc:'ذكريات الرسوم المتحركة والعوالم التي رافقت البدايات.',items:[
+['🚀','سبيستون','ذكريات برامج ورسوم متحركة من الطفولة.'],
+['📺','Cartoon Network','عالم الرسوم المتحركة القديم.'],
+['📺','MBC3','قناة من ذكريات الطفولة.'],
+['🖍️','عالم الطباشير','من العوالم الكرتونية التي بقيت في الذاكرة.'],
+['🏝️','فلونة','الجزيرة والطبيعة والحياة البسيطة والمغامرة.']
+]},
+{ name:'صالة الألعاب',desc:'ألعاب قديمة وعوالم مفتوحة وتحديات.',items:[
+['⛏️','Minecraft','البناء والاستكشاف والتجربة.'],
+['🚘','GTA','من الألعاب الموجودة في ذاكرته.'],
+['🏰','Clash of Clans','التخطيط وبناء القرية والهجوم والدفاع.'],
+['🐆','Pink Panther','الفهد الوردي وذكريات الألعاب القديمة.'],
+['🕹️','ألعاب زمان','الألعاب التي صنعت جزءاً من ذكريات الطفولة.'],
+['💻','اللابتوب','مساحة للتعلم واللعب والتجربة.']
+]},
+{ name:'مدرج برشلونة',desc:'كرة القدم وحلم الطفولة وألوان النادي.',items:[
+['🔵🔴','برشلونة','الفريق الذي يشجعه.'],
+['⚽','كرة القدم','اهتمامه بكرة القدم وأجواء الملاعب.'],
+['👕','قميص برشلونة','قميص كبير في واجهة المدرج.'],
+['👕','قميص صغير','قميص أصغر يرمز إلى حلم الطفولة بأن يصبح لاعب كرة قدم.']
+]},
+{ name:'غرفة الشعر',desc:'الكلمات والشعر العراقي والكتابة.',items:[
+['🪶','الشعر العراقي','ميل إلى الشعر العراقي وما يحمله من صور ومعانٍ.'],
+['📜','لو روحي طير','أغنية اختيرت لهذا الركن، ويمكن ربط Cover مرخّص بها لاحقاً.'],
+['✍️','الكتابة','كانت لديه تجربة في كتابة الشعر والوصف.'],
+['🌙','الكلمات القديمة','يقول إن موهبته في الكتابة خفّت مع الوقت، لكن التجارب المكتوبة تبقى جزءاً من رحلته.']
+]},
+{ name:'صالون الموسيقى',desc:'أغانٍ وفنانين وموسيقى ترافق الطريق والسيارة والشتاء.',items:[
+['🎤','ويجز','من الفنانين المفضلين لديه.'],
+['🎧','مروان بابلو وSynaptik','من الأسماء التي يستمع إليها.'],
+['🎙️','أدهم نابلسي ووائل جسار','أصوات ضمن ذائقته الموسيقية.'],
+['🎙️','عمرو دياب وتامر حسني','من الفنانين الذين يستمع إليهم.'],
+['🎶','الأغاني المختارة','بخت، أميرة، Bring Me to Life، خليك معايا، حبك يداويني، ولو روحي طير تصير.'],
+['🚘','موسيقى السيارة','للأغاني مكان مختلف في الطريق، خصوصاً في الشتاء.']
+]},
+{ name:'غرفة الملفات السرية',desc:'الغموض والتحقيقات واليابان والمغامرات.',items:[
+['🕵️','التحقيق','الألغاز والتحقيقات وكشف التفاصيل.'],
+['📁','الملفات السياسية','الاهتمام بالسياسة ونظريات المؤامرة، مع التمييز بين الادعاء والدليل.'],
+['🗾','اليابان','بلد وثقافة ووجهة تثير فضوله.'],
+['🎮','PUBG','اللعبة التي ارتبطت ببعض المواقف الطريفة.'],
+['🕶️','أجواء التجسس','موسيقى مغامرات وتحقيقات ولمسة فكاهية.']
+]},
+{ name:'أرشيف الذكريات',desc:'مواقف صغيرة بقيت في الذاكرة.',items:[
+['💬','عربيتك ركيكة','جملة محفوظة في أرشيف المواقف الطريفة.'],
+['🎮','موقف PUBG','ذكرى مرتبطة باللعب والضحك.'],
+['🪑','كرسيتين مكسورين بكرسي جديدة','عنوان ملف من الأرشيف… والتفاصيل لأصحاب الذكرى.'],
+['🎵','أميرة','اختيرت لتكون موسيقى هذا الأرشيف.']
+]},
+{ name:'خزانة التفاصيل',desc:'الأشياء الصغيرة التي تصنع عالماً كاملاً.',items:[
+['🐈','بسبوس','القط بسبوس وحب القطط والحيوانات.'],
+['🐾','الحيوانات','لا يحب إزعاج الحيوانات أو إيذاءها.'],
+['🚘','السيارات','اهتمام بالسيارات وتفاصيلها.'],
+['⌚','الساعات والإكسسوارات','الساعات والإكسسوارات من الأشياء التي تلفت انتباهه.'],
+['👔','الستايل','لبس رياضي كاجوال مرتب.'],
+['📷','التصوير','ليس من محبي التصوير.'],
+['🥩','الطعام','اللحم والبروتين والبيض.'],
+['🥣','السيريلاك','السيريلاك… وصندوق يومي مطلب مهم في هذا المتحف.'],
+['🌊','الشاطئ','طبيعة هادئة وبحر بعيد عن الزحام.'],
+['💙','الألوان','الأزرق والسماوي من ألوانه المفضلة.']
+]},
+{ name:'قاعة الطريق القادم',desc:'السفر والتعلم والعمل والأهداف.',items:[
+['🇩🇪','ألمانيا','من البلدان التي يتمنى زيارتها.'],
+['🗣️','الألمانية','يتعلم اللغة الألمانية.'],
+['💻','C++','يتعلم البرمجة بشكل مستقل عبر يوتيوب واللابتوب.'],
+['💪','الرياضة','اهتمام باللياقة البدنية وكمال الأجسام والتدريب.'],
+['🌲','الطبيعة','السفر والمغامرة والشواطئ الهادئة.'],
+['💼','العمل والفرص','يهتم بالعمل وكسب المال وإنجاز الأشياء.'],
+['📈','الأهداف','يحب التطور والتعلم من الأخطاء وعدم تضييع الأيام.'],
+['🧠','الإنسان','اهتمام بالجسد والنفس والعلم وفهم الإنسان.']
+]},
+{ name:'قاعة عيد الميلاد',desc:'26 نوفمبر 2005 — 26 نوفمبر 2026. بداية سنة جديدة.',items:[
+['🎂','21 سنة','في 26 نوفمبر 2026 يصبح عمره 21 سنة.'],
+['🎹','الموسيقى الختامية','اختيار مقطوعة Experience للقاعة الأخيرة.'],
+['🌟','التجربة','كل سنة تضيف معرفة وتجربة وخطوة جديدة.'],
+['🔑','المفتاح','ليس ضرورياً أن تكون كل الإجابات جاهزة؛ المهم أن يبقى الفضول حياً.']
+]}
 ];
 
-const doorBox=document.getElementById("doors");
-rooms.forEach((room,i)=>{
- const b=document.createElement("button");
- b.className="door";
- b.innerHTML=`<span class="num">ROOM ${String(i+1).padStart(2,"0")}</span><span class="door-icon">${room.icon}</span><span>${room.title}</span>`;
- b.addEventListener("click",()=>openRoom(i));
- doorBox.appendChild(b);
+let currentRoom=0,angle=0,move=0,turn=0;
+const keys={};
+const clock=new THREE.Clock();
+
+function box(w,h,d,material,x,y,z){
+ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);
+ m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;scene.add(m);return m;
+}
+function sphere(radius,material,x,y,z){
+ const m=new THREE.Mesh(new THREE.SphereGeometry(radius,18,14),material);
+ m.position.set(x,y,z);m.castShadow=true;scene.add(m);return m;
+}
+function cylinder(rt,rb,h,material,x,y,z){
+ const m=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,18),material);
+ m.position.set(x,y,z);m.castShadow=true;scene.add(m);return m;
+}
+function textSprite(text,x,y,z){
+ const c=document.createElement('canvas');c.width=512;c.height=128;
+ const ctx=c.getContext('2d');
+ ctx.fillStyle='#2a0d16';ctx.fillRect(0,0,512,128);
+ ctx.strokeStyle='#d2ad68';ctx.lineWidth=5;ctx.strokeRect(5,5,502,118);
+ ctx.fillStyle='#f1d69b';ctx.font='bold 37px Arial';ctx.textAlign='center';ctx.fillText(text,256,79);
+ const tex=new THREE.CanvasTexture(c);
+ const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:false}));
+ s.scale.set(4,1,1);s.position.set(x,y,z);scene.add(s);
+}
+function makeRoom(r,index){
+ const z=-index*11;
+ box(12,.4,11,floorMat,0,0,z);
+ box(12,8,.4,wall,0,4,z-5.5);
+ box(.4,8,11,wall,-6,4,z);
+ box(.4,8,11,wall,6,4,z);
+ box(12,.4,11,wood,0,8,z);
+ // gilded wall panels
+ for(let x of [-4.7,-2.4,0,2.4,4.7]){
+  box(.08,5,.1,goldmat,x,4,z-5.22);
+  box(1.65,.08,.1,goldmat,x,1.5,z-5.22);
+  box(1.65,.08,.1,goldmat,x,6.5,z-5.22);
+ }
+ // chandelier
+ cylinder(.09,.09,1,goldmat,0,7.2,z);
+ for(let a=0;a<6;a++){
+  const t=a*Math.PI/3;
+  sphere(.13,goldmat,Math.cos(t)*.8,6.7,z+Math.sin(t)*.8);
+  const light=new THREE.PointLight(0xffc66f,13,9);
+  light.position.set(Math.cos(t)*.8,6.6,z+Math.sin(t)*.8);scene.add(light);
+ }
+ textSprite(r.name,0,6.9,z-5.15);
+ // decorative stands and unique exhibit objects
+ r.items.forEach((item,j)=>{
+  const col=j%4,row=Math.floor(j/4);
+  const x=-4.2+col*2.8;
+  const zz=z+2.2-row*2.6;
+  box(1.25,.25,1.1,wood,x,.55,zz);
+  cylinder(.43,.5,.75,goldmat,x,.95,zz);
+  const colors=[0x8e3450,0x263f69,0x7a5b2c,0x416c62,0x5b4a75];
+  const color=colors[(j+index)%colors.length];
+  const shape=j%4;
+  let exhibit;
+  if(shape===0)exhibit=sphere(.48,mat(color),x,1.85,zz);
+  else if(shape===1)exhibit=box(.75,.95,.5,mat(color),x,1.85,zz);
+  else if(shape===2)exhibit=cylinder(.35,.55,.9,mat(color),x,1.85,zz);
+  else{
+   exhibit=new THREE.Mesh(new THREE.TorusGeometry(.42,.14,12,24),goldmat);
+   exhibit.position.set(x,1.9,zz);scene.add(exhibit);
+  }
+  exhibit.userData={room:index,item:item};
+  objects.push(exhibit);
+  // tiny label below exhibit
+  const label=document.createElement('canvas');label.width=256;label.height=64;
+  const ctx=label.getContext('2d');ctx.fillStyle='#270b14';ctx.fillRect(0,0,256,64);
+  ctx.fillStyle='#f1d69b';ctx.font='24px Arial';ctx.textAlign='center';ctx.fillText(item[1].slice(0,17),128,42);
+  const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(label)}));
+  sprite.scale.set(1.5,.38,1);sprite.position.set(x,1.05,zz-.15);scene.add(sprite);
+ });
+}
+rooms.forEach(makeRoom);
+
+// hallway joining all galleries
+box(12,.4,rooms.length*11+10,floorMat,0,0,-(rooms.length*11)/2+5);
+box(12,.4,rooms.length*11+10,wood,0,8,-(rooms.length*11)/2+5);
+box(.4,8,rooms.length*11+10,wall,-6,4,-(rooms.length*11)/2+5);
+box(.4,8,rooms.length*11+10,wall,6,4,-(rooms.length*11)/2+5);
+for(let i=0;i<rooms.length;i++){
+ const z=-i*11;
+ box(.25,6,.25,goldmat,-5.75,3,z);
+ box(.25,6,.25,goldmat,5.75,3,z);
+ box(11,.2,.2,goldmat,0,7.7,z);
+ // room entrance
+ box(2.4,5,.3,wood,0,2.5,z-4.8);
+ box(2.2,.12,.15,goldmat,0,5,z-4.6);
+}
+for(let i=0;i<rooms.length*2;i++){
+ const light=new THREE.PointLight(0xffc779,18,10);
+ light.position.set(0,6,-i*5.5);scene.add(light);
+}
+
+// Character: tall person, black curly hair, plain white T-shirt, black trousers.
+const player=new THREE.Group();
+const body=box(.8,1.05,.42,white,0,2.15,0);body.position.set(0,2.15,0);player.add(body);
+const legs=[];
+for(let x of [-.23,.23]){
+ const leg=box(.29,1.05,.32,black,x,1.1,0);player.add(leg);legs.push(leg);
+ const shoe=box(.32,.18,.48,black,x,.55,-.06);player.add(shoe);
+}
+const neck=cylinder(.13,.13,.2,mat(0xb77f62),0,2.72,0);player.add(neck);
+const head=sphere(.34,mat(0xb77f62),0,3.05,0);player.add(head);
+// curly black hair: many small spheres on top and sides
+const hairmat=mat(0x08080b);
+for(let i=0;i<34;i++){
+ const a=Math.random()*Math.PI*2;
+ const y=2.98+Math.random()*.36;
+ const radius=.29+Math.random()*.08;
+ const curl=sphere(.105,hairmat,Math.cos(a)*radius,y,Math.sin(a)*radius);
+ player.add(curl);
+}
+player.position.set(0,0,4);
+scene.add(player);
+
+// shadowless player styling, camera follows behind
+const cameraOffset=new THREE.Vector3(0,5.1,8.8);
+function updateCamera(){
+ const target=new THREE.Vector3(player.position.x,2.0,player.position.z);
+ const offset=cameraOffset.clone().applyAxisAngle(new THREE.Vector3(0,1,0),angle);
+ camera.position.copy(target).add(offset);
+ camera.lookAt(player.position.x,1.7,player.position.z-2);
+}
+updateCamera();
+
+const raycaster=new THREE.Raycaster();
+const pointer=new THREE.Vector2();
+let nearItem=null;
+renderer.domElement.addEventListener('pointerdown',e=>{
+ pointer.x=(e.clientX/innerWidth)*2-1;
+ pointer.y=-(e.clientY/innerHeight)*2+1;
+ raycaster.setFromCamera(pointer,camera);
+ const hits=raycaster.intersectObjects(objects,false);
+ if(hits.length){
+  const obj=hits[0].object;
+  if(obj.position.distanceTo(player.position)<5){
+   const d=obj.userData.item;
+   document.getElementById('itemicon').textContent=d[0];
+   document.getElementById('itemtitle').textContent=d[1];
+   document.getElementById('itemdesc').textContent=d[2];
+   document.getElementById('overlay').classList.add('show');
+  }
+ }
 });
 
-function openRoom(index){
- const r=rooms[index];
- document.getElementById("hall-screen").style.display="none";
- document.getElementById("room-screen").classList.add("active");
- document.getElementById("room-number").textContent=`ROOM ${String(index+1).padStart(2,"0")} · EXHIBITION`;
- document.getElementById("room-title").textContent=r.title;
- document.getElementById("room-subtitle").textContent=r.subtitle;
- document.getElementById("room-quote").textContent=r.quote;
- document.getElementById("room-scene").innerHTML=r.scene.map(x=>`<span class="scene-object">${x}</span>`).join("");
- const list=document.getElementById("artifacts");
- list.innerHTML="";
- r.items.forEach(item=>{
-  const button=document.createElement("button");
-  button.className="artifact";
-  button.innerHTML=`<span class="object">${item[0]}</span><strong>${item[1]}</strong><small>اضغط لاكتشاف القطعة</small>`;
-  button.addEventListener("click",()=>showDetail(item));
-  list.appendChild(button);
- });
- window.scrollTo({top:0,behavior:"smooth"});
-}
+document.getElementById('close').onclick=()=>document.getElementById('overlay').classList.remove('show');
 
-function goBack(){
- document.getElementById("room-screen").classList.remove("active");
- document.getElementById("hall-screen").style.display="block";
- window.scrollTo({top:0,behavior:"smooth"});
+function bindHold(id,fn){
+ const el=document.getElementById(id);
+ el.addEventListener('pointerdown',e=>{e.preventDefault();fn(true)});
+ ['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,()=>fn(false)));
 }
+bindHold('up',v=>keys.forward=v);
+bindHold('down',v=>keys.back=v);
+bindHold('left',v=>keys.left=v);
+bindHold('right',v=>keys.right=v);
+bindHold('turnleft',v=>keys.turnleft=v);
+bindHold('turnright',v=>keys.turnright=v);
 
-function showDetail(item){
- document.getElementById("detail-icon").textContent=item[0];
- document.getElementById("detail-title").textContent=item[1];
- document.getElementById("detail-text").textContent=item[2];
- document.getElementById("detail").classList.add("open");
-}
-function closeDetail(event){
- if(!event || event.target.id==="detail"){
-  document.getElementById("detail").classList.remove("open");
+addEventListener('keydown',e=>{
+ if(e.key==='w'||e.key==='ArrowUp')keys.forward=true;
+ if(e.key==='s'||e.key==='ArrowDown')keys.back=true;
+ if(e.key==='a'||e.key==='ArrowLeft')keys.left=true;
+ if(e.key==='d'||e.key==='ArrowRight')keys.right=true;
+});
+addEventListener('keyup',e=>{
+ if(e.key==='w'||e.key==='ArrowUp')keys.forward=false;
+ if(e.key==='s'||e.key==='ArrowDown')keys.back=false;
+ if(e.key==='a'||e.key==='ArrowLeft')keys.left=false;
+ if(e.key==='d'||e.key==='ArrowRight')keys.right=false;
+});
+
+function updateRoom(){
+ const idx=Math.max(0,Math.min(rooms.length-1,Math.floor((-player.position.z+4)/11)));
+ if(idx!==currentRoom){
+  currentRoom=idx;
+  document.getElementById('roomname').textContent=rooms[idx].name;
+  document.getElementById('roomdesc').textContent=rooms[idx].desc;
  }
+ const nearest=objects.find(o=>o.position.distanceTo(player.position)<4);
+ document.getElementById('prompt').style.display=nearest?'block':'none';
 }
-document.addEventListener("keydown",e=>{
- if(e.key==="Escape")closeDetail();
+
+let audioCtx=null,oscillators=[],musicOn=false;
+function musicStart(){
+ if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+ audioCtx.resume();
+ const master=audioCtx.createGain();master.gain.value=.045;master.connect(audioCtx.destination);
+ const notes=[130.81,164.81,196,220,164.81,146.83];
+ notes.forEach((freq,i)=>{
+  const o=audioCtx.createOscillator();
+  const g=audioCtx.createGain();
+  o.type='sine';o.frequency.value=freq;
+  g.gain.value=.18;
+  o.connect(g);g.connect(master);o.start();
+  oscillators.push(o);
+ });
+ musicOn=true;
+ document.getElementById('music').textContent='♫ إيقاف الأجواء';
+}
+function musicStop(){
+ oscillators.forEach(o=>{try{o.stop()}catch{}});
+ oscillators=[];musicOn=false;
+ document.getElementById('music').textContent='♫ تشغيل الأجواء';
+}
+document.getElementById('music').onclick=()=>musicOn?musicStop():musicStart();
+
+document.getElementById('enter').onclick=()=>{
+ document.getElementById('start').style.display='none';
+ updateCamera();
+};
+
+function animate(){
+ requestAnimationFrame(animate);
+ const dt=Math.min(clock.getDelta(),.04);
+ if(keys.turnleft)angle+=dt*1.6;
+ if(keys.turnright)angle-=dt*1.6;
+ let speed=0;
+ if(keys.forward)speed=1;
+ if(keys.back)speed=-1;
+ let side=0;
+ if(keys.left)side=-1;
+ if(keys.right)side=1;
+ const forward=new THREE.Vector3(-Math.sin(angle),0,-Math.cos(angle));
+ const right=new THREE.Vector3(Math.cos(angle),0,-Math.sin(angle));
+ player.position.addScaledVector(forward,speed*dt*4.1);
+ player.position.addScaledVector(right,side*dt*3.2);
+ player.position.x=THREE.MathUtils.clamp(player.position.x,-4.7,4.7);
+ player.position.z=THREE.MathUtils.clamp(player.position.z,-rooms.length*11+2,7);
+ player.rotation.y=angle;
+ const walking=Math.abs(speed)+Math.abs(side);
+ legs[0].rotation.x=walking?Math.sin(performance.now()*.012)*.45:0;
+ legs[1].rotation.x=-legs[0].rotation.x;
+ updateCamera();updateRoom();
+ renderer.render(scene,camera);
+}
+animate();
+
+addEventListener('resize',()=>{
+ camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+ renderer.setSize(innerWidth,innerHeight);
 });
 </script>
 </body>
