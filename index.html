@@ -2,558 +2,648 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>متحف يزن | 21</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>متحف يزن — 21</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#100b0c;color:#f5e8d0;font-family:Tahoma,Arial,sans-serif}
-#scene{position:fixed;inset:0}
-#hud{position:fixed;inset:0;pointer-events:none}
-#top{position:absolute;top:15px;right:15px;left:15px;display:flex;justify-content:space-between;gap:10px;align-items:center}
-.badge{background:#160e10d9;border:1px solid #a7834b88;padding:10px 14px;border-radius:8px;font-size:12px;backdrop-filter:blur(8px)}
-#cross{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:20px;color:#e8c98a;opacity:.75}
-#hint{position:absolute;bottom:115px;left:50%;transform:translateX(-50%);background:#160e10e8;border:1px solid #a7834b;padding:12px 18px;border-radius:8px;text-align:center;font-size:13px;max-width:90%;display:none}
-#intro{position:fixed;inset:0;background:linear-gradient(#090607b8,#090607f2),radial-gradient(ellipse at center,#69422b,#100b0c 70%);z-index:10;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px}
-.panel{max-width:520px}
-.panel h1{font-size:clamp(32px,8vw,58px);color:#e7c58a;margin:0 0 10px;text-shadow:0 4px 25px #000}
-.panel p{line-height:2;color:#e0d1bd}
-button{font:inherit;cursor:pointer}
-.gold{background:linear-gradient(135deg,#e6c88f,#a77a3d);color:#20140d;border:0;border-radius:7px;padding:13px 25px;font-weight:bold}
-#info{position:fixed;z-index:8;left:50%;top:50%;transform:translate(-50%,-50%);width:min(90%,440px);padding:23px;background:#170f10f2;border:1px solid #c6a269;border-radius:12px;display:none;text-align:center;box-shadow:0 15px 60px #000}
-#info h2{color:#e7c58a;margin-top:0}
-#info p{line-height:1.9;color:#e4d8c7}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07182b;color:#f1fbff;font-family:Tahoma,Arial,sans-serif}
+#game{position:fixed;inset:0}canvas{display:block;touch-action:none}
+button,select{font:inherit}button{cursor:pointer}
+#hud{position:absolute;z-index:2;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}
+.badge,#progress{background:#071c2ddd;border:1px solid #a9d9e955;border-radius:10px;padding:9px 12px;font-size:12px;backdrop-filter:blur(8px)}
+#hint{position:absolute;z-index:2;bottom:12px;left:50%;transform:translateX(-50%);background:#061a2ddd;padding:10px 14px;border-radius:12px;text-align:center;width:max-content;max-width:92%;font-size:12px;pointer-events:none}
+#controls{position:absolute;z-index:3;bottom:65px;left:12px;display:grid;grid-template-columns:repeat(3,48px);gap:4px;direction:ltr}
+#controls button{height:45px;padding:0;border:1px solid #fff8;border-radius:10px;background:#d5f5ffdd;color:#082238;font-size:20px;touch-action:none}
+#controls button:nth-child(1){grid-column:2}
+#controls button:nth-child(2){grid-column:1;grid-row:2}
+#controls button:nth-child(3){grid-column:2;grid-row:2}
+#controls button:nth-child(4){grid-column:3;grid-row:2}
+.action{position:absolute;z-index:3;right:12px;bottom:82px;border:1px solid #d7f7ff;background:linear-gradient(135deg,#c8f2ff,#679bb9);color:#082238;border-radius:10px;padding:12px;font-weight:bold}
+#music{position:absolute;z-index:3;top:55px;left:10px;width:190px;background:#071c2ddd;border:1px solid #a9d9e955;padding:9px;border-radius:10px;font-size:11px}
+#music select{width:100%;margin-top:7px;padding:7px;border-radius:6px}
+#music button{margin-top:6px;padding:7px 10px;border:0;border-radius:6px;background:#bdeeff;color:#082238}
+#player iframe{width:170px;height:96px;border:0;margin-top:6px;border-radius:7px}
+#roomNav{position:absolute;z-index:3;right:12px;top:55px}
+#roomNav select{max-width:145px;padding:8px;border-radius:8px;background:#071c2ddd;color:white;border:1px solid #9bdcf0}
+#intro,#modal{position:absolute;z-index:6;inset:0;display:flex;align-items:center;justify-content:center;background:#03101def;padding:18px}
+#modal{display:none}
+.panel{width:min(600px,100%);padding:28px;border:1px solid #a9d9e9;border-radius:18px;background:linear-gradient(145deg,#102c43,#071a30);text-align:center;max-height:90%;overflow:auto}
+h1{font-size:clamp(26px,6vw,44px);color:#c7f2ff;margin:0 0 12px}
+p{line-height:1.9;color:#e0f4ff}
+.panel button{border:1px solid #c5efff;background:linear-gradient(135deg,#bceeff,#638fae);color:#082238;padding:12px 22px;border-radius:10px;font-weight:bold}
 #close{margin-top:10px}
-#controls{position:fixed;bottom:15px;left:15px;right:15px;display:flex;justify-content:space-between;align-items:end;pointer-events:none}
-.pad{display:grid;grid-template-columns:48px 48px 48px;grid-template-rows:48px 48px 48px;gap:5px;pointer-events:auto}
-.ctrl{background:#1b1110bb;border:1px solid #b8955d99;color:#f1d7a4;border-radius:12px;font-size:18px;touch-action:none}
-#look{font-size:11px;opacity:.8;max-width:125px;text-align:center;line-height:1.6}
-#use{pointer-events:auto;padding:13px 17px;border-radius:10px;background:#a9824b;color:#160f0b;border:0;font-weight:bold}
-@media(hover:hover) and (pointer:fine){#controls{opacity:.5}#controls:hover{opacity:1}}
+#crosshair{position:absolute;z-index:2;left:50%;top:50%;width:7px;height:7px;border-radius:50%;background:#eaffff;box-shadow:0 0 8px #8de6ff;transform:translate(-50%,-50%);pointer-events:none}
+#progress{position:absolute;z-index:2;bottom:12px;right:12px;font-size:11px}
+@media(max-width:600px){#music{width:155px}#player iframe{width:135px;height:76px}#roomNav select{max-width:125px;font-size:11px}.panel{padding:22px}}
+@media(min-width:800px){#controls{bottom:18px}#interact{bottom:22px}}
 </style>
 </head>
 <body>
-<div id="scene"></div>
-
-<div id="hud">
-  <div id="top">
-    <div class="badge">متحف يزن · 21</div>
-    <div class="badge" id="roomName">البهو الرئيسي</div>
-  </div>
-  <div id="cross">+</div>
-  <div id="hint"></div>
-  <div id="controls">
-    <div class="pad">
-      <span></span><button class="ctrl" data-move="forward">▲</button><span></span>
-      <button class="ctrl" data-move="left">◀</button><button class="ctrl" data-move="back">▼</button><button class="ctrl" data-move="right">▶</button>
-      <span></span><button class="ctrl" data-move="up">＋</button><span></span>
-    </div>
-    <div id="look">اسحب الشاشة للنظر حولك<br>اقترب من المقتنيات لتكتشفها</div>
-    <button id="use">تفاعل</button>
-  </div>
+<div id="game"></div>
+<div id="hud"><div class="badge">متحف يزن · 21</div><div class="badge" id="roomName">القاعة الرئيسية</div></div>
+<div id="roomNav"><select id="roomSelect" aria-label="الانتقال إلى قاعة"></select></div>
+<div id="music"><b>موسيقى المتحف 🎵</b><select id="track"></select><button id="play">تشغيل</button><div id="player"></div></div>
+<div id="controls">
+<button data-move="forward">↑</button><button data-move="left">←</button><button data-move="back">↓</button><button data-move="right">→</button>
 </div>
+<button class="action" id="interact">استكشف القطعة</button>
+<div id="crosshair"></div>
+<div id="hint">اسحب على الشاشة للنظر حولك · استخدم الأسهم أو WASD للحركة</div>
+<div id="progress">قاعة 1 من 14</div>
+<div id="intro"><div class="panel">
+<h1>متحف يزن</h1><p>المتحف يشبهه، مو يوثّقه.</p>
+<p>أربع عشرة قاعة، ذكريات وأفكار وموسيقى ومواقف لا تحتاج إلى تفسير دائماً.</p>
+<p style="font-size:12px;color:#9fc8dc">26 نوفمبر 2026 · عيد ميلاد يزن الحادي والعشرون</p>
+<button id="start">دخول المتحف</button>
+</div></div>
+<div id="modal"><div class="panel"><h1 id="modalTitle"></h1><p id="modalText"></p><button id="close">إغلاق</button></div></div>
 
-<div id="intro">
-  <div class="panel">
-    <h1>متحف يزن</h1>
-    <p>واحد وعشرون عاماً…<br>وحكايات كثيرة لا تكفيها غرفة واحدة.</p>
-    <p>أنت الآن عند مدخل المتحف.<br>انظر حولك، تحرّك، واكتشف التفاصيل بنفسك.</p>
-    <button class="gold" id="enter">ادخل المتحف</button>
-  </div>
-</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+<script type="module">
+import {GLTFLoader} from 'https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/loaders/GLTFLoader.js';
 
-<div id="info">
-  <h2 id="infoTitle"></h2>
-  <p id="infoText"></p>
-  <button class="gold" id="close">إغلاق</button>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script>
-(() => {
+(()=> {
 'use strict';
+const THREE=window.THREE;
+const root=document.getElementById('game');
+if(!THREE){document.getElementById('hint').textContent='تعذّر تحميل مكتبة العرض.';return;}
 
-const host=document.getElementById('scene');
 const scene=new THREE.Scene();
-scene.background=new THREE.Color(0x100b0c);
-scene.fog=new THREE.Fog(0x100b0c,17,58);
-
-const camera=new THREE.PerspectiveCamera(75,innerWidth/innerHeight,.1,100);
-camera.position.set(0,1.65,7);
-
+scene.background=new THREE.Color(0x8ecbe3);
+scene.fog=new THREE.Fog(0x8ecbe3,65,190);
+const camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,.1,400);
+camera.position.set(0,1.7,0);
 const renderer=new THREE.WebGLRenderer({antialias:true});
 renderer.setSize(innerWidth,innerHeight);
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
 renderer.shadowMap.enabled=true;
 renderer.shadowMap.type=THREE.PCFSoftShadowMap;
 renderer.outputColorSpace=THREE.SRGBColorSpace;
-host.appendChild(renderer.domElement);
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.12;
+root.appendChild(renderer.domElement);
 
-scene.add(new THREE.HemisphereLight(0xffdfbd,0x20151a,1.35));
-const ambient=new THREE.AmbientLight(0xffd5a0,.25);
-scene.add(ambient);
+scene.add(new THREE.HemisphereLight(0xe6faff,0x26384d,2.1));
+const sun=new THREE.DirectionalLight(0xffffff,2);
+sun.position.set(-15,22,12);sun.castShadow=true;
+sun.shadow.mapSize.set(1536,1536);scene.add(sun);
 
-function light(x,y,z,color=0xffd49a,power=2,range=12){
- const l=new THREE.PointLight(color,power,range);
- l.position.set(x,y,z);scene.add(l);return l;
-}
-light(0,5,0,0xffd49a,3,25);
-light(-8,4,-12,0x86c9ed,2,16);
-light(8,4,-12,0xffc58b,2,16);
-light(0,4,-25,0x8dbce8,2,16);
-
-const mat=(color,rough=.8,metal=0)=>new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal});
-const wall=mat(0x392326),dark=mat(0x211516),wood=mat(0x4b2b20),gold=mat(0xc39a58,.35,.65),marble=mat(0xb9a99a,.35),blue=mat(0x183d60),red=mat(0x762d35),black=mat(0x15191d),white=mat(0xe6d8c1);
-
-function box(w,h,d,m,x,y,z){
- const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);
- o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;scene.add(o);return o;
-}
-function cylinder(rt,rb,h,m,x,y,z,segments=24){
- const o=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,segments),m);
- o.position.set(x,y,z);o.castShadow=true;scene.add(o);return o;
-}
-function sphere(r,m,x,y,z){
- const o=new THREE.Mesh(new THREE.SphereGeometry(r,24,16),m);
- o.position.set(x,y,z);o.castShadow=true;scene.add(o);return o;
-}
-function textTexture(title,sub=''){
- const c=document.createElement('canvas');c.width=512;c.height=320;
- const g=c.getContext('2d');
- g.fillStyle='#241719';g.fillRect(0,0,512,320);
- g.strokeStyle='#c9a66c';g.lineWidth=13;g.strokeRect(14,14,484,292);
- g.strokeStyle='#765437';g.lineWidth=3;g.strokeRect(30,30,452,260);
- g.textAlign='center';g.fillStyle='#f0d6a3';g.font='bold 43px Tahoma';
- g.fillText(title,256,145);
- g.fillStyle='#d4c3a9';g.font='25px Tahoma';g.fillText(sub,256,200);
- const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;
-}
-function painting(title,sub,x,y,z,rot=0){
- const frame=box(2.2,1.55,.15,gold,x,y,z);
- frame.rotation.y=rot;
- const pic=new THREE.Mesh(new THREE.PlaneGeometry(1.92,1.27),new THREE.MeshBasicMaterial({map:textTexture(title,sub)}));
- pic.position.set(x,y,z+.09);pic.rotation.y=rot;scene.add(pic);
- return frame;
-}
-function carpet(x,z,w=5,d=7){
- box(w,.07,d,red,x,.04,z);
- for(let i=0;i<4;i++){
-  box(w-.25,.015,.035,gold,x,.09,z-d/2+.35+i*.13);
-  box(w-.25,.015,.035,gold,x,.09,z+d/2-.35-i*.13);
- }
-}
-function chandelier(x,z){
- cylinder(.08,.08,.5,gold,x,4.7,z);
- for(let i=0;i<6;i++){
-  const a=i*Math.PI/3;
-  cylinder(.035,.035,.65,gold,x+Math.cos(a)*.65,4.4,z+Math.sin(a)*.65);
-  sphere(.13,mat(0xffd99a,.25),x+Math.cos(a)*.65,4.05,z+Math.sin(a)*.65);
- }
- sphere(.18,gold,x,4.25,z);
-}
-function roomShell(x,z,w,d,name){
- box(w,.25,d,marble,x,-.15,z);
- box(w,5,.35,wall,x,2.5,z-d/2);
- box(.35,5,d,wall,x-w/2,2.5,z);
- box(.35,5,d,wall,x+w/2,2.5,z);
- box(w,.25,d,dark,x,5,z);
- for(let i=-1;i<=1;i++){
-  box(.16,4.8,.2,gold,x+i*w/3,2.5,z-d/2+.2);
- }
- carpet(x,z,w*.65,d*.72);
- chandelier(x,z);
-}
-function pedestal(x,z,m=marble){
- box(.9,.18,.9,gold,x,.12,z);
- box(.72,.85,.72,m,x,.62,z);
- box(.95,.12,.95,gold,x,1.08,z);
-}
-function objectLabel(title,desc,x,y,z,r=1.5){
- const o=new THREE.Object3D();o.position.set(x,y,z);scene.add(o);
- o.userData={title,desc};
- interactives.push(o);
- return o;
-}
-const interactives=[];
-
-/* القصر والبهو */
-box(30,.4,70,marble,0,-.35,-16);
-box(30,6,.5,wall,0,3,-35);
-box(30,6,.5,wall,0,3,5);
-box(.5,6,70,wall,-15,3,-15);
-box(.5,6,70,wall,15,3,-15);
-carpet(0,-15,8,38);
-for(let x of [-12,-8,8,12]){
- box(.55,5,.65,wood,x,2.5,-15);
- box(.85,.25,.85,gold,x,5.1,-15);
- box(.85,.25,.85,gold,x,.15,-15);
-}
-chandelier(0,-8);chandelier(0,-23);
-painting('متحف يزن','من هنا تبدأ الحكاية',0,3.3,-34.65);
-painting('21','26 · 11 · 2026',-9,3,-34.6);
-painting('أبواب كثيرة','وطرق لم تُكتشف بعد',9,3,-34.6);
-
-/* أبواب الأجنحة والممرات */
-function doorway(x,z,label){
- box(2.8,3.5,.35,wood,x,1.75,z);
- box(2.45,3.15,.12,dark,x,1.7,z-.22);
- box(2.7,.13,.2,gold,x,3.55,z-.1);
- objectLabel(label,'هذا الجناح جزء من عالم يزن. اقترب واستكشف ما فيه.',x,1.7,z-.8,2.3);
-}
-doorway(-8,-4,'جناح الذكريات');
-doorway(8,-4,'جناح الأفكار');
-doorway(-8,-25,'جناح الموسيقى');
-doorway(8,-25,'جناح الرحلات');
-
-/* جناح الذكريات: التلفزيون والألعاب */
-roomShell(-23,-10,16,18,'الذكريات');
-box(16,.25,18,marble,-23,-.15,-10);
-box(16,5,.35,wall,-23,2.5,-19);
-box(.35,5,18,wall,-31,2.5,-10);
-box(.35,5,18,wall,-15,2.5,-10);
-box(16,5,.35,wall,-23,2.5,-1);
-carpet(-23,-10,11,12);
-box(4,.65,1.2,wood,-23,.55,-7);
-box(2.7,1.7,.45,black,-23,1.75,-7);
-box(2.35,1.35,.08,mat(0x345b69,.3),-23,1.8,-6.74);
-box(2.8,.16,.6,wood,-23,.15,-7);
-cylinder(.13,.13,.25,black,-23,1,-7);
-painting('عالم الطباشير','ذاكرة من أيام زمان',-23,3.5,-19.25);
-painting('سبيستون','MBC3 · Cartoon Network',-28,2.5,-19.25);
-box(2,.65,1.2,black,-27,.4,-12);
-box(1.7,.12,1,mat(0x5a5b5e),-27,.8,-12);
-for(let i=0;i<5;i++){
- cylinder(.42,.42,.08,[red,blue,white,gold,black][i],-28+i*1.15,.95,-14,32);
-}
-box(1.4,.2,1,wood,-19,.1,-12);
-box(1.15,.75,.75,black,-19,.55,-12);
-box(.8,.04,.45,mat(0x71818c),-19,.95,-12);
-objectLabel('التلفزيون القديم','شاشة من زمن القنوات القديمة. عالم الطباشير وسبيستون وMBC3 وCartoon Network… ذكريات طفولة إلها مكانها هون.',-23,1.8,-6.4,2);
-objectLabel('جهاز الألعاب','PS2 وأقراص ألعاب قديمة. من أيام اللعب على الشاشة الصغيرة.',-27,.9,-12,1.7);
-objectLabel('أقراص الألعاب','ألعاب قديمة، وذكريات Minecraft وGTA وألعاب ثانية.',-25,.95,-14,1.5);
-objectLabel('فلة','ركن صغير من ذكريات الرسوم القديمة.',-28,2.5,-18.8,1.5);
-
-/* جناح الأفكار والفلسفة */
-roomShell(23,-10,16,18,'الأفكار');
-box(16,.25,18,marble,23,-.15,-10);
-box(16,5,.35,wall,23,2.5,-19);
-box(.35,5,18,wall,15,2.5,-10);
-box(.35,5,18,wall,31,2.5,-10);
-box(16,5,.35,wall,23,2.5,-1);
-carpet(23,-10,11,12);
-for(let side of [-1,1]){
- const x=23+side*5.5;
- box(2.3,3,.55,wood,x,1.5,-17);
- for(let j=0;j<4;j++)box(2,.08,.5,gold,x,0.5+j*.62,-16.7);
- for(let j=0;j<7;j++){
-  box(.16,.45,.28,[red,blue,wood,white][j%4],x-0.8+j*.25,.8,-16.6);
- }
-}
-cylinder(1.5,1.5,.25,wood,23,.65,-8);
-cylinder(1.3,1.3,.08,gold,23,.82,-8);
-for(let i=0;i<4;i++){
- const a=i*Math.PI/2;
- box(.7,.8,.7,wood,23+Math.cos(a)*2, .4,-8+Math.sin(a)*2);
-}
-painting('أسئلة مفتوحة','الفلسفة والتفكير',23,3.5,-19.25);
-painting('أفلاطون · نيتشه','أفكار تستحق النقاش',18,2.5,-19.25);
-objectLabel('مكتبة الأفكار','كتب عن الفلسفة والتاريخ والنفس والإنسان. من بينها أسماء مثل أفلاطون ونيتشه.',28,1.8,-16.5,2);
-objectLabel('طاولة النقاش','مكان للأسئلة والأفكار، مو لكل سؤال جواب جاهز.',23,1,-8,2);
-
-/* جناح الموسيقى */
-roomShell(-23,-30,16,18,'الموسيقى');
-box(16,.25,18,marble,-23,-.15,-30);
-box(16,5,.35,wall,-23,2.5,-39);
-box(.35,5,18,wall,-31,2.5,-30);
-box(.35,5,18,wall,-15,2.5,-30);
-box(16,5,.35,wall,-23,2.5,-21);
-carpet(-23,-30,11,12);
-box(4,.7,1.4,wood,-23,.45,-26);
-box(2.5,.18,1.2,black,-23,.9,-26);
-cylinder(.6,.6,.1,black,-23,1.05,-26);
-cylinder(.18,.18,.12,gold,-23,1.12,-26);
-for(let i=0;i<4;i++)cylinder(.58,.58,.08,black,-27+i*1.2,.15,-32);
-for(let i=0;i<2;i++){
- const s=new THREE.Mesh(new THREE.TorusGeometry(.5,.08,12,32),black);
- s.position.set(-19+i*1.3,1.5,-27);scene.add(s);
- box(.12,.12,.12,gold,-19+i*1.3,1.5,-27);
-}
-painting('الموسيقى','ليالي هادئة وأغانٍ كثيرة',-23,3.5,-39.25);
-painting('ويجز','بخت · أميرة',-28,2.5,-39.25);
-objectLabel('مشغّل الأسطوانات','ركن الموسيقى: أسطوانات وسماعات ومشغّل قديم. يمكن لاحقاً إضافة روابط تشغيل رسمية للأغاني.',-23,1,-26,2);
-objectLabel('أغاني وذكريات','ويجز ومروان بابلو وسينابتك وأدهم نابلسي ووائل جسار وعمرو دياب وتامر حسني، وأغانٍ أخرى من فترات مختلفة.',-27,1,-32,2);
-
-/* جناح الرحلات وألمانيا */
-roomShell(23,-30,16,18,'الرحلات');
-box(16,.25,18,marble,23,-.15,-30);
-box(16,5,.35,wall,23,2.5,-39);
-box(.35,5,18,wall,15,2.5,-30);
-box(.35,5,18,wall,31,2.5,-30);
-box(16,5,.35,wall,23,2.5,-21);
-carpet(23,-30,11,12);
-box(2.2,2.6,.9,wood,18,.3,-31);
-box(2.2,.15,.9,gold,18,1.6,-31);
-box(.15,.7,.15,gold,18,2,-31);
-box(1.1,.1,.1,gold,18,2.3,-31);
-box(1.8,.12,.12,black,18,.2,-30);
-painting('ألمانيا','طريق لم يُحسم بعد',23,3.5,-39.25);
-painting('رحلة جديدة','تعلم · اكتشاف · احتمالات',28,2.5,-39.25);
-objectLabel('حقيبة السفر','رمز للرغبة بالسفر والمغامرة وزيارة ألمانيا. المستقبل مفتوح، وما في قرار نهائي عن الدراسة أو الإقامة.',18,1,-31,2);
-objectLabel('تعلم الألمانية','بداية طريق لتعلم لغة جديدة، خطوة وراء خطوة.',28,1,-31,1.8);
-
-/* كرة القدم وبرشلونة */
-roomShell(0,-48,24,16,'كرة القدم');
-box(24,.25,16,marble,0,-.15,-48);
-box(24,5,.35,wall,0,2.5,-56);
-box(.35,5,16,wall,-12,2.5,-48);
-box(.35,5,16,wall,12,2.5,-48);
-box(24,5,.35,wall,0,2.5,-40);
-carpet(0,-48,16,10);
-box(1.3,1.5,.2,blue,-6,1.5,-55);
-box(.5,.3,.22,red,-6,1.3,-54.8);
-box(.5,.3,.22,red,-6,1.7,-54.8);
-box(1.3,1.5,.2,red,6,1.5,-55);
-box(.45,.25,.22,blue,6,1.3,-54.8);
-box(.45,.25,.22,blue,6,1.7,-54.8);
-sphere(.48,white,0,.55,-47);
-for(let i=0;i<5;i++){
- const a=i*Math.PI*2/5;
- sphere(.16,black,Math.cos(a)*.3,.65,-47+Math.sin(a)*.3);
-}
-painting('حلم الملعب','حلم صغير بدأ من كرة',0,3.5,-56.25);
-objectLabel('قميص يزن','قميص طفل صغير يحمل اسم يزن. تذكار رمزي لحلم أن يصبح لاعب كرة قدم.',-6,1.5,-54.5,2);
-objectLabel('برشلونة','قميص بألوان برشلونة، للنادي الذي يشجعه يزن.',6,1.5,-54.5,2);
-objectLabel('الكرة القديمة','كرة في منتصف الملعب الصغير. تذكير بحلم الطفولة.',0,.7,-47,1.8);
-
-/* جناح التاريخ والفضاء */
-roomShell(0,-70,24,18,'التاريخ والكون');
-box(24,.25,18,marble,0,-.15,-70);
-box(24,5,.35,wall,0,2.5,-79);
-box(.35,5,18,wall,-12,2.5,-70);
-box(.35,5,18,wall,12,2.5,-70);
-box(24,5,.35,wall,0,2.5,-61);
-carpet(0,-70,16,12);
-for(let x of [-7,0,7]){
- pedestal(x,-70);
- cylinder(.4,.4,.8,gold,x,1.55,-70);
- sphere(.32,mat(0x4b82a0,.4,.4),x,2.1,-70);
-}
-painting('حضارات قديمة','مصر واليونان',0,3.5,-79.25);
-painting('الكون','الفلك والنجوم',-7,2.5,-79.25);
-objectLabel('الحضارة المصرية','اهتمام بالتاريخ والحضارات القديمة والأهرامات والرموز التاريخية.',-7,1.8,-70,2);
-objectLabel('الأساطير اليونانية','ركن عن الحضارة اليونانية وأساطيرها، بوصفها موضوعاً تاريخياً وثقافياً.',0,1.8,-70,2);
-objectLabel('الفلك والأبراج','النجوم والأبراج هنا رموز وموضوعات فنية وثقافية، وليست تنبؤات علمية. برج القوس مرتبط بتاريخ الميلاد.',7,1.8,-70,2);
-
-/* جناح التفاصيل والذكريات الساخرة */
-roomShell(0,-94,24,18,'التفاصيل');
-box(24,.25,18,marble,0,-.15,-94);
-box(24,5,.35,wall,0,2.5,-103);
-box(.35,5,18,wall,-12,2.5,-94);
-box(.35,5,18,wall,12,2.5,-94);
-box(24,5,.35,wall,0,2.5,-85);
-carpet(0,-94,16,12);
-painting('عربيتك ركيكة','اكتشاف لغوي عظيم',0,3.5,-103.25);
-painting('المنظمة السرية','ملفات لا تُفتح بسهولة',-7,2.5,-103.25);
-box(2.4,1.4,1.2,wood,0,.7,-94);
-box(2.2,.12,1.1,gold,0,1.45,-94);
-box(.8,.2,.6,black,-7,.3,-94);
-box(.55,.15,.45,white,-7,.5,-94);
-box(.8,.2,.6,wood,7,.3,-94);
-painting('كرسيتين مكسورين','بكرسي جديدة',7,2.5,-103.25);
-objectLabel('الإطار الذهبي','«عربيتك ركيكة»… عبارة تستحق إطاراً ذهبياً ضخماً، باعتبارها اكتشافاً لغوياً عظيماً.',0,3.5,-102.8,2.5);
-objectLabel('المنظمة السرية','ملف ساخر عن المنظمة السرية التي يمزح يزن بأنه رئيسها. لا توجد تفاصيل مخترعة عن أعضائها أو اسمها.',-7,1,-94,2);
-objectLabel('الكرسي الغامض','«كرسيتين مكسورين بكرسي جديدة». العبارة محفوظة كما هي، وتفسيرها ما زال لغزاً.',7,2.5,-102.8,2);
-
-/* القط والطعام والرياضة والكتابة */
-roomShell(0,-118,24,18,'أشياء تشبهه');
-box(24,.25,18,marble,0,-.15,-118);
-box(24,5,.35,wall,0,2.5,-127);
-box(.35,5,18,wall,-12,2.5,-118);
-box(.35,5,18,wall,12,2.5,-118);
-box(24,5,.35,wall,0,2.5,-109);
-carpet(0,-118,16,12);
-painting('بسبوس','رفيق لطيف',0,3.5,-127.25);
-painting('دفتر وأفكار','كتابة وشعر',-7,2.5,-127.25);
-box(2.2,.7,1.2,wood,-7,.4,-118);
-box(1.2,.08,.8,white,-7,.85,-118);
-cylinder(.06,.06,.5,black,-7,1.2,-118);
-box(.9,.9,.8,mat(0xd5c18b),7,.55,-118);
-box(.75,.12,.7,gold,7,1.05,-118);
-objectLabel('بسبوس','بسبوس، القط الذي له مكانه الخاص في هذا المتحف.',0,3.5,-126.8,2);
-objectLabel('السيريلاك','علبة سيريلاك معروضة كأنها قطعة أثرية نادرة، مع الإشارة للمزحة المتعلقة بحب وجودها يومياً.',7,1,-118,2);
-objectLabel('الكتابة والشعر','دفتر وقلم وورق. مساحة للكتابة والشعر العراقي، وللنصوص القصيرة التي كان يكتبها يزن.',-7,1,-118,2);
-objectLabel('الرياضة والتدريب','اهتمام باللياقة والتدريب وتطوير الذات، من دون أحكام على شكل الجسم أو مقارنات.',-3,1,-121,2);
-
-/* ملفات PUBG والخيال والتحقيق */
-roomShell(0,-142,24,18,'الأرشيف');
-box(24,.25,18,marble,0,-.15,-142);
-box(24,5,.35,wall,0,2.5,-151);
-box(.35,5,18,wall,-12,2.5,-142);
-box(.35,5,18,wall,12,2.5,-142);
-box(24,5,.35,wall,0,2.5,-133);
-carpet(0,-142,16,12);
-painting('المهمة','التي لم ينجُ منها أحد',0,3.5,-151.25);
-painting('ملفات غامضة','تحقيق · خيال · تاريخ',-7,2.5,-151.25);
-objectLabel('مهمة PUBG','أرشيف ساخر للذكرى: سمعت إطلاق نار وركضت باتجاهه، ثم انتهت المهمة بموتك، ولحق بك يزن. «المهمة التي لم ينجُ منها أحد».',0,3.5,-150.8,2.5);
-objectLabel('التحقيق والغموض','اهتمام بأجواء الغموض والتحقيق والخيال العلمي والرعب والكوميديا، من دون تصوير يزن كأنه يشاهد المسلسلات طوال الوقت.',-7,1,-142,2);
-objectLabel('ملفات الأخبار','ركن للأسئلة السياسية وتحليل الأحداث والنظريات. أي ادعاء أو نظرية يُعرض كادعاء يحتاج تحققاً، لا كحقيقة تلقائية.',7,1,-142,2);
-
-/* المكتب والتقنية */
-roomShell(0,-166,24,18,'المستقبل والتقنية');
-box(24,.25,18,marble,0,-.15,-166);
-box(24,5,.35,wall,0,2.5,-175);
-box(.35,5,18,wall,-12,2.5,-166);
-box(.35,5,18,wall,12,2.5,-166);
-box(24,5,.35,wall,0,2.5,-157);
-carpet(0,-166,16,12);
-box(3.5,.25,1.4,wood,0,.85,-165);
-box(1.7,1.15,.15,black,0,1.55,-165.4);
-box(1.5,.9,.03,mat(0x28536b,.4),0,1.55,-165.3);
-box(.35,.1,.35,black,0,1.05,-165);
-box(1.5,.08,.6,white,0,1.02,-164.2);
-painting('المكتب','التعلّم والتجربة',0,3.5,-175.25);
-objectLabel('البرمجة','لابتوب ومكتب للتعلم الذاتي، ومنه تعلم C++ من خلال الشروحات.',0,1.5,-164.9,2);
-objectLabel('الدراسة','مساحة ترمز لدراسة التجميل الطبي، من دون افتراض قرار نهائي عن التخصص أو المسار.',-6,1,-166,2);
-objectLabel('المستقبل','أبواب مفتوحة للتعلم والعمل والسفر والتطوير. لا يوجد مسار واحد مفروض.',6,1,-166,2);
-
-/* ممرات تصل الأجنحة */
-for(let z of [-10,-30,-48,-70,-94,-118,-142,-166]){
- box(1,.18,5,gold,-8,0,z);
- box(1,.18,5,gold,8,0,z);
-}
-
-/* حركة الكاميرا والتفاعل */
-let yaw=0,pitch=0,locked=false,started=false;
-const keys={};
-const velocity=new THREE.Vector3();
-const direction=new THREE.Vector3();
-const raycaster=new THREE.Raycaster();
-const hint=document.getElementById('hint');
-let target=null;
-
-function showInfo(title,desc){
- document.getElementById('infoTitle').textContent=title;
- document.getElementById('infoText').textContent=desc;
- document.getElementById('info').style.display='block';
-}
-document.getElementById('close').onclick=()=>document.getElementById('info').style.display='none';
-
-function findTarget(){
- raycaster.setFromCamera(new THREE.Vector2(0,0),camera);
- const hits=raycaster.intersectObjects(interactives,true);
- target=null;
- for(const hit of hits){
-  let obj=hit.object;
-  while(obj && !obj.userData.title)obj=obj.parent;
-  if(obj && obj.userData.title && hit.distance<4.2){target=obj;break;}
- }
- if(target){
-  hint.style.display='block';
-  hint.textContent='اضغط «تفاعل» لاكتشاف: '+target.userData.title;
- }else hint.style.display='none';
-}
-function interact(){
- if(target)showInfo(target.userData.title,target.userData.desc);
-}
-document.getElementById('use').onclick=interact;
-renderer.domElement.addEventListener('click',()=>{
- if(!('ontouchstart' in window) && !locked && started){
-  renderer.domElement.requestPointerLock?.();
- }
-});
-document.addEventListener('pointerlockchange',()=>locked=document.pointerLockElement===renderer.domElement);
-document.addEventListener('mousemove',e=>{
- if(!locked)return;
- yaw-=e.movementX*.002;
- pitch-=e.movementY*.002;
- pitch=Math.max(-1.25,Math.min(1.25,pitch));
-});
-document.addEventListener('keydown',e=>keys[e.code]=true);
-document.addEventListener('keyup',e=>keys[e.code]=false);
-
-/* سحب اللمس للنظر */
-let touchLook=null;
-renderer.domElement.addEventListener('touchstart',e=>{
- if(e.touches.length===1){
-  touchLook={x:e.touches[0].clientX,y:e.touches[0].clientY};
- }
-},{passive:true});
-renderer.domElement.addEventListener('touchmove',e=>{
- if(!touchLook||e.touches.length!==1)return;
- const t=e.touches[0];
- const dx=t.clientX-touchLook.x,dy=t.clientY-touchLook.y;
- yaw-=dx*.005;
- pitch-=dy*.004;
- pitch=Math.max(-1.2,Math.min(1.2,pitch));
- touchLook={x:t.clientX,y:t.clientY};
-},{passive:true});
-renderer.domElement.addEventListener('touchend',()=>touchLook=null);
-
-/* أزرار الحركة للموبايل */
-const pressed={};
-document.querySelectorAll('[data-move]').forEach(btn=>{
- const name=btn.dataset.move;
- btn.addEventListener('pointerdown',e=>{e.preventDefault();pressed[name]=true;btn.setPointerCapture(e.pointerId)});
- ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>btn.addEventListener(ev,()=>pressed[name]=false));
-});
-
-function movement(dt){
- const speed=4.2*dt;
- let forward=0,side=0;
- if(keys.KeyW||keys.ArrowUp||pressed.forward)forward+=1;
- if(keys.KeyS||keys.ArrowDown||pressed.back)forward-=1;
- if(keys.KeyA||keys.ArrowLeft||pressed.left)side-=1;
- if(keys.KeyD||keys.ArrowRight||pressed.right)side+=1;
- if(pressed.up)camera.position.y=Math.min(2.2,camera.position.y+speed);
- const len=Math.hypot(forward,side)||1;
- forward/=len;side/=len;
- const dx=(-Math.sin(yaw)*forward+Math.cos(yaw)*side)*speed;
- const dz=(-Math.cos(yaw)*forward-Math.sin(yaw)*side)*speed;
- const nx=camera.position.x+dx,nz=camera.position.z+dz;
- camera.position.x=Math.max(-29,Math.min(29,nx));
- camera.position.z=Math.max(-173,Math.min(3,nz));
- camera.position.y=1.65;
-}
-
-function updateRoom(){
- const z=camera.position.z;
- let name='البهو الرئيسي';
- if(camera.position.x < -14)name='جناح الذكريات';
- else if(camera.position.x > 14)name='جناح الأفكار';
- else if(z<-20&&z>-40)name=camera.position.x<0?'الموسيقى':'الرحلات';
- else if(z<=-40&&z>-60)name='كرة القدم';
- else if(z<=-60&&z>-82)name='التاريخ والكون';
- else if(z<=-82&&z>-108)name='التفاصيل والذكريات';
- else if(z<=-108&&z>-132)name='أشياء تشبهه';
- else if(z<=-132&&z>-156)name='الأرشيف';
- else if(z<=-156)name='المستقبل والتقنية';
- document.getElementById('roomName').textContent=name;
-}
-
-let last=performance.now();
-function animate(now){
- requestAnimationFrame(animate);
- const dt=Math.min((now-last)/1000,.04);last=now;
- if(started){
-  movement(dt);
-  camera.rotation.order='YXZ';
-  camera.rotation.y=yaw;
-  camera.rotation.x=pitch;
-  findTarget();
-  updateRoom();
- }
- renderer.render(scene,camera);
-}
-requestAnimationFrame(animate);
-
-document.getElementById('enter').onclick=()=>{
- started=true;
- document.getElementById('intro').style.display='none';
- if(!('ontouchstart' in window))renderer.domElement.requestPointerLock?.();
+const mat=(color,roughness=.6,metalness=0,extra={})=>new THREE.MeshStandardMaterial({color,roughness,metalness,...extra});
+const M={
+wall:mat(0xd8edf1,.75),floor:mat(0xe9f2f2,.24,.18),trim:mat(0x8fc7dc,.3,.55),
+silver:mat(0xcbdde6,.22,.8),blue:mat(0x397ca7,.35,.35),dark:mat(0x10263c,.7),
+wood:mat(0x684b38,.8),gold:mat(0xbda66d,.28,.7),black:mat(0x111820,.4),
+glass:mat(0x85d9f5,.12,.25,{transparent:true,opacity:.4}),
+glow:mat(0x8de6ff,.2,.2,{emissive:0x2a9bc4,emissiveIntensity:.65}),
+white:mat(0xf4f8fa,.4),red:mat(0x9b3148,.4),green:mat(0x3b7954,.5),
+rubber:mat(0x171b20,.9),screen:mat(0x152f40,.18,.15,{emissive:0x102b42,emissiveIntensity:.35})
 };
+
+const rooms=[
+['القاعة الرئيسية',0,'أهلاً بك في متحف يزن.'],
+['الطفولة والألعاب',24,'هنا تعيش ألعاب الطفولة وشاشات الماضي وعالم الطباشير.'],
+['الفلسفة والتفكير',48,'أسئلة عن الحياة والإنسان والمعنى.'],
+['الموسيقى والطرب',72,'أسطوانات وأغانٍ وليل ومطر.'],
+['السفر وألمانيا',96,'ألمانيا، خرائط وحقائب وأشياء لم تُحسم بعد.'],
+['برشلونة وكرة القدم',120,'حلم الملعب وقميص برشلونة وذكريات الكرة.'],
+['التاريخ والحضارات',144,'مصر القديمة واليونان والقمر والجليد والمحيط.'],
+['الفلك والأبراج',168,'السماء والكواكب ورموز الأبراج.'],
+['الرياضة واللياقة',192,'أجهزة وأوزان وأدوات تدريب.'],
+['مكتب التحليل والملفات',216,'أخبار وأسئلة وملفات تحتاج إلى تدقيق.'],
+['الشعر والكتابة',240,'دفتر وقلم ولمسات من الشعر العراقي.'],
+['المشاهدة',264,'كنبة وبوشار وشاشة ومحتوى متنوع.'],
+['المنظمة السرية والذكريات',288,'مكتب الرئيس والملفات السرية ومواقف لا تُنسى.'],
+['القاعة الأخيرة',312,'واحد وعشرون عاماً… وما زالت أمامك أبواب كثيرة لم تُفتح بعد.']
+].map(r=>({name:r[0],x:r[1],desc:r[2]}));
+
+const interactables=[];
+const clock=new THREE.Clock();
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function box(w,h,d,material,x,y,z,g=scene){
+const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);
+o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;g.add(o);return o;
+}
+function cyl(rt,rb,h,material,x,y,z,g=scene,n=24){
+const o=new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,n),material);
+o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;g.add(o);return o;
+}
+function ball(r,material,x,y,z,g=scene){
+const o=new THREE.Mesh(new THREE.SphereGeometry(r,24,16),material);
+o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;g.add(o);return o;
+}
+function ellipsoid(g,x,y,z,sx,sy,sz,material){
+const o=ball(1,material,x,y,z,g);o.scale.set(sx,sy,sz);return o;
+}
+function rod(g,a,b,r,material){
+const d=new THREE.Vector3().subVectors(b,a);
+const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,d.length(),10),material);
+o.position.copy(a).add(b).multiplyScalar(.5);
+o.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());
+o.castShadow=true;g.add(o);return o;
+}
+function groupAt(g,x,z){const q=new THREE.Group();q.position.set(x,0,z);g.add(q);return q;}
+
+function register(g,title,description,mesh){
+interactables.push({mesh,title,description});
+mesh.userData.interaction=true;return mesh;
+}
+function label(g,title,description,x,y,z,w=2.5,h=.65){
+const c=document.createElement('canvas');c.width=512;c.height=150;
+const ctx=c.getContext('2d');
+ctx.fillStyle='#102c43';ctx.fillRect(0,0,512,150);
+ctx.strokeStyle='#bcecff';ctx.lineWidth=7;ctx.strokeRect(5,5,502,140);
+ctx.fillStyle='#effaff';ctx.textAlign='center';ctx.textBaseline='middle';
+ctx.font='bold 34px Tahoma';ctx.fillText(title,256,75,470);
+const texture=new THREE.CanvasTexture(c);texture.colorSpace=THREE.SRGBColorSpace;
+const face=box(w,h,.035,new THREE.MeshBasicMaterial({map:texture}),x,y,z,g);
+register(g,title,description,face);return face;
+}
+function column(g,x,z){
+cyl(.35,.48,6,M.trim,x,3,z,g);
+cyl(.55,.55,.25,M.silver,x,.15,z,g);
+cyl(.55,.55,.25,M.silver,x,5.9,z,g);
+}
+function chandelier(g){
+cyl(.12,.12,.8,M.gold,0,7,0,g);
+for(let i=0;i<8;i++){
+const a=i*Math.PI/4;
+rod(g,new THREE.Vector3(0,6.8,0),new THREE.Vector3(Math.cos(a)*1.2,6.3,Math.sin(a)*1.2),.07,M.gold);
+ball(.16,M.glow,Math.cos(a)*1.2,5.9,Math.sin(a)*1.2,g);
+}
+ball(.35,M.glow,0,6.8,0,g);
+}
+
+function buildShell(room){
+const g=new THREE.Group();g.position.set(room.x,0,0);scene.add(g);
+box(22,.4,22,M.floor,0,-.25,0,g);
+box(22,8,.6,M.wall,0,4,-11,g);
+box(22,8,.6,M.wall,0,4,11,g);
+for(const side of [-1,1]){
+box(.6,8,8,M.wall,side*11,4,-7,g);
+box(.6,8,8,M.wall,side*11,4,7,g);
+box(.6,2,6,M.wall,side*11,7,0,g);
+box(.35,5.8,.35,M.trim,side*10.7,2.9,-3,g);
+box(.35,5.8,.35,M.trim,side*10.7,2.9,3,g);
+box(.45,.35,6.3,M.silver,side*10.7,5.8,0,g);
+}
+for(const x of [-9,9]){column(g,x,-9.8);column(g,x,9.8);}
+box(22,.35,.65,M.trim,0,7.9,0,g);
+box(22,.25,.65,M.trim,0,.05,0,g);
+chandelier(g);
+label(g,room.name,room.desc,0,5.4,-10.3,5,1.1);
+return g;
+}
+function shelf(g,x,z){
+box(3,.18,.8,M.wood,x,1,z,g);box(3,.18,.8,M.wood,x,2,z,g);
+box(.15,2.3,.8,M.wood,x-1.45,1.1,z,g);box(.15,2.3,.8,M.wood,x+1.45,1.1,z,g);
+}
+function chair(g,x,z){
+box(1.5,.25,1.3,M.wood,x,.7,z,g);box(1.5,1.4,.25,M.wood,x,1.35,z-.55,g);
+for(const dx of [-.6,.6])for(const dz of [-.45,.45])cyl(.06,.06,.7,M.dark,x+dx,.3,z+dz,g);
+}
+
+function makeCRT(g,x,z){
+const q=groupAt(g,x,z);
+box(2.65,2.05,1.55,M.black,0,1.55,0,q);
+box(2.38,1.72,.08,mat(0x253d4b,.2),0,1.58,.81,q);
+const glass=ellipsoid(q,0,1.58,.87,1.08,.72,.12,M.screen);
+box(.55,.045,.018,M.glow,-.35,1.95,.99,q);
+for(let i=0;i<3;i++)cyl(.075,.075,.08,M.silver,.91+i*.18,1.12,.86,q,16);
+box(1.1,.25,.8,M.black,0,.35,.1,q);
+box(3,.12,1.65,M.wood,0,.12,.15,q);
+for(let r=0;r<3;r++)for(let c=0;c<11;c++)box(.105,.035,.09,M.silver,-.72+c*.14,.37,1.12+r*.14,q);
+ellipsoid(q,1.15,.35,1.35,.16,.08,.23,M.black);
+register(q,'كمبيوتر LG القديم','كمبيوتر CRT قديم مع لوحة مفاتيح وماوس. ذكرى من زمن ألعاب الكمبيوتر.',q);
+return q;
+}
+function makeTV(g,x,z){
+const q=groupAt(g,x,z);
+box(3.1,2.25,1.8,M.black,0,1.65,0,q);
+box(2.78,1.88,.1,M.dark,0,1.7,.94,q);
+const glass=ellipsoid(q,0,1.7,1.01,1.28,.82,.13,M.screen);
+for(let i=0;i<3;i++)cyl(.1,.1,.12,M.silver,1.35,1.9-i*.3,.97,q);
+rod(q,new THREE.Vector3(0,2.8,0),new THREE.Vector3(-.7,3.65,0),.035,M.silver);
+rod(q,new THREE.Vector3(0,2.8,0),new THREE.Vector3(.7,3.65,0),.035,M.silver);
+register(q,'تلفزيون CRT قديم','تلفزيون بصندوق عميق وشاشة زجاجية وأزرار وهوائي.',q);
+}
+function makeConsole(g,x,z,type='PS1'){
+const q=groupAt(g,x,z);
+if(type==='PS1'){
+box(1.8,.42,1.8,mat(0xaaa9a0,.55),0,.55,0,q);
+cyl(.55,.55,.055,M.dark,0,.79,-.05,q,40);
+cyl(.43,.43,.06,mat(0x9ba7b0,.3,.6),0,.83,-.05,q,40);
+box(.45,.07,.12,M.black,0,.81,.76,q);
+ball(.08,M.green,-.68,.8,.72,q);ball(.08,M.blue,.68,.8,.72,q);
+}else{
+box(1.1,2.25,.75,mat(0x171b20,.35,.2),0,1.25,0,q);
+for(let i=0;i<7;i++)box(.035,1.75,.04,M.silver,-.43+i*.14,1.25,.39,q);
+cyl(.09,.09,.06,M.glow,0,.25,.4,q,16);
+}
+register(q,type,type==='PS1'?'جهاز PlayStation الأول الرمادي المسطح.':'جهاز PlayStation 2 الأسود العمودي.',q);
+}
+function makeController(g,x,y,z){
+const q=new THREE.Group();q.position.set(x,y,z);g.add(q);
+ellipsoid(q,0,0,0,.48,.12,.28,M.black);
+ellipsoid(q,-.29,-.08,.03,.18,.11,.24,M.black);ellipsoid(q,.29,-.08,.03,.18,.11,.24,M.black);
+box(.16,.035,.06,M.silver,-.19,.12,0,q);box(.06,.035,.16,M.silver,-.19,.12,0,q);
+for(const [dx,dz,c] of [[.23,-.08,0xd64b52],[.34,.02,0x4d83bd],[.23,.12,0x58a76b],[.12,.02,0xd6c36a]])ball(.055,mat(c),dx,.13,dz,q);
+register(q,'يد تحكم','يد تحكم ألعاب بأزرارها المعروفة.',q);
+}
+function makeDisc(g,x,y,z){
+const q=groupAt(g,x,z);
+cyl(.72,.72,.07,mat(0x777f89,.2,.8),0,y,0,q,64);
+cyl(.54,.54,.012,mat(0xb8c9d6,.18,.85),0,y+.045,0,q,64);
+cyl(.15,.15,.09,M.black,0,y,0,q,32);
+register(q,'قرص ألعاب','قرص ألعاب دائري بسطح معدني وثقب مركزي.',q);
+}
+function makeShirt(g,x,z){
+const q=groupAt(g,x,z);
+const torso=box(1.35,1.65,.22,M.blue,0,1.65,0,q);
+const l=box(.55,.72,.22,M.blue,-.92,2.05,0,q);l.rotation.z=-.28;
+const r=box(.55,.72,.22,M.blue,.92,2.05,0,q);r.rotation.z=.28;
+box(.28,1.6,.235,M.red,-.35,1.65,.13,q);box(.28,1.6,.235,M.red,.35,1.65,.13,q);
+const collar=new THREE.Mesh(new THREE.TorusGeometry(.22,.07,8,24,Math.PI),M.white);
+collar.position.set(0,2.48,.12);collar.rotation.x=Math.PI/2;q.add(collar);
+ball(.13,M.gold,.43,2.12,.15,q);
+register(q,'قميص برشلونة','قميص كرة قدم بألوان برشلونة وشارة صغيرة.',q);
+}
+function makeSoccerBall(g,x,y,z){
+const q=groupAt(g,x,z);
+const b=ball(.72,M.white,0,y,0,q);
+const black=mat(0x171b20,.7);
+const pentagon=new THREE.Shape();
+for(let i=0;i<5;i++){const a=i*Math.PI*2/5-Math.PI/2;const px=Math.cos(a)*.2,py=Math.sin(a)*.2;i===0?pentagon.moveTo(px,py):pentagon.lineTo(px,py);}
+pentagon.closePath();
+const patch=new THREE.Mesh(new THREE.ShapeGeometry(pentagon),black);
+patch.position.set(0,y,.69);q.add(patch);
+register(q,'كرة قدم','كرة قدم بيضاء مع لوحة سوداء ظاهرة.',b);
+}
+function makePyramid(g,x,z,size=1.7){
+const q=groupAt(g,x,z);
+const p=new THREE.Mesh(new THREE.ConeGeometry(size,3.2,4),mat(0xc4ae83,.92));
+p.position.y=1.6;p.rotation.y=Math.PI/4;p.castShadow=true;q.add(p);
+box(size*1.5,.18,size*1.5,mat(0x9f8b6a),0,.08,0,q);
+register(q,'هرم مصري','مجسم هرمي رباعي مستوحى من أهرامات مصر.',q);
+}
+function makeCat(g,x,z){
+const q=groupAt(g,x,z);
+const fur=mat(0xc99a61,.9),darkFur=mat(0x9a7047,.9),eye=mat(0xa77b2d,.25);
+const body=ellipsoid(q,0,.72,0,.62,.42,.95,fur);
+ellipsoid(q,0,1.08,-.55,.43,.43,.43,fur);
+for(const dx of [-.27,.27]){
+const ear=new THREE.Mesh(new THREE.ConeGeometry(.18,.42,4),fur);
+ear.position.set(dx,1.52,-.67);q.add(ear);
+ball(.07,mat(0xd28c85),dx,1.48,-.69,q);
+}
+for(const dx of [-.16,.16]){
+ball(.09,eye,dx,1.13,-.93,q);ball(.045,M.black,dx,1.13,-1.005,q);
+ball(.018,M.white,dx-.02,1.16,-1.04,q);
+}
+ball(.055,mat(0x9f6862),0,1.02,-.99,q);
+for(const dx of [-.38,.38])for(const dz of [-.58,.58]){
+ellipsoid(q,dx,.28,dz,.13,.32,.14,fur);ellipsoid(q,dx,.1,dz-.02,.15,.1,.19,darkFur);
+}
+const curve=new THREE.CatmullRomCurve3([new THREE.Vector3(0,.8,.78),new THREE.Vector3(.3,1.15,1.05),new THREE.Vector3(.55,1.5,.95),new THREE.Vector3(.7,1.45,.65)]);
+q.add(new THREE.Mesh(new THREE.TubeGeometry(curve,24,.095,8,false),fur));
+register(q,'بسبوس 🐈','بسبوس قط أشقر رملي بعينين عسليتين. يظهر في الاستقبال والقاعة الأخيرة.',q);
+}
+function makeCar(g,x,z,color=0x245d86){
+const q=groupAt(g,x,z);
+const body=box(2.3,.62,1.05,mat(color,.32,.3),0,.72,0,q);
+box(1.25,.58,.88,mat(color,.3,.25),-.12,1.25,0,q);
+box(.48,.38,.035,M.glass,-.12,1.28,.46,q);box(.48,.38,.035,M.glass,-.12,1.28,-.46,q);
+for(const dx of [-.72,.72])for(const dz of [-.57,.57]){
+cyl(.28,.28,.16,M.rubber,dx,.43,dz,q,24).rotation.z=Math.PI/2;
+cyl(.13,.13,.17,M.silver,dx,.43,dz,q,20).rotation.z=Math.PI/2;
+}
+register(q,'سيارة لعبة','سيارة صغيرة بهيكل وسقف ونوافذ وأربع عجلات.',body);
+}
+function makeSuitcase(g,x,z,color=0x31516a){
+const q=groupAt(g,x,z);
+const body=box(1.15,1.55,.55,mat(color,.5,.2),0,1,0,q);
+box(.48,.1,.1,M.silver,0,1.86,0,q);
+rod(q,new THREE.Vector3(-.2,1.85,0),new THREE.Vector3(-.2,2.12,0),.035,M.silver);
+rod(q,new THREE.Vector3(.2,1.85,0),new THREE.Vector3(.2,2.12,0),.035,M.silver);
+register(q,'حقيبة سفر','حقيبة سفر بمقبض علوي.',body);
+}
+function makeHeadphones(g,x,y,z){
+const q=groupAt(g,x,z);
+const arc=new THREE.Mesh(new THREE.TorusGeometry(.48,.09,12,40,Math.PI),M.black);
+arc.position.set(0,y+.35,0);arc.rotation.z=Math.PI;q.add(arc);
+for(const dx of [-.48,.48])ellipsoid(q,dx,y,0,.18,.3,.2,M.dark);
+register(q,'سماعات','سماعات رأس بقوس علوي وكأسين للأذنين.',q);
+}
+function makeBook(g,x,z,color=0x315a7d){
+const q=groupAt(g,x,z);
+const cover=box(.85,1.2,.2,mat(color,.7),0,.65,0,q);
+box(.07,1.2,.22,M.gold,-.38,.65,.02,q);
+box(.7,.025,.015,M.silver,0,.85,.12,q);
+register(q,'كتاب','كتاب بغلاف وعمود وصفحات.',q);
+}
+function makeDoll(g,x,z,color=0xc59a72){
+const q=groupAt(g,x,z);
+const body=ellipsoid(q,0,.75,0,.28,.42,.2,mat(color));
+ball(.29,M.white,0,1.32,0,q);
+for(const dx of [-.1,.1])ball(.04,M.black,dx,1.35,.25,q);
+rod(q,new THREE.Vector3(-.25,.95,0),new THREE.Vector3(-.48,.55,.05),.07,mat(color));
+rod(q,new THREE.Vector3(.25,.95,0),new THREE.Vector3(.48,.55,.05),.07,mat(color));
+for(const dx of [-.13,.13])rod(q,new THREE.Vector3(dx,.4,0),new THREE.Vector3(dx,.08,.03),.08,mat(color));
+register(q,'دمية','دمية صغيرة برأس وجسم وذراعين وساقين.',q);
+}
+function makeCereal(g,x,z){
+const q=groupAt(g,x,z);
+const pack=box(.65,1.45,.35,mat(0x3984ad),0,.73,0,q);
+box(.43,.42,.025,mat(0xe8c65f),0,.93,.19,q);
+ball(.12,mat(0x9c4b35),0,.94,.22,q);
+const bowl=new THREE.Mesh(new THREE.SphereGeometry(.45,24,12,0,Math.PI*2,0,Math.PI/2),M.silver);
+bowl.position.set(.8,.42,0);bowl.scale.y=.55;q.add(bowl);
+for(let i=0;i<10;i++){const a=i*2.4;ball(.07,mat(0xc89a52),.8+Math.cos(a)*.28,.57,Math.sin(a)*.25,q);}
+register(q,'حبوب الإفطار','علبة حبوب إفطار ووعاء على طاولة بسيطة.',pack);
+}
+function makeScissors(g,x,z){
+const q=groupAt(g,x,z);
+const a=new THREE.Mesh(new THREE.TorusGeometry(.2,.045,8,24),M.gold);
+a.position.set(-.25,.55,0);a.scale.set(1,1.25,1);q.add(a);
+const b=a.clone();b.position.x=.25;q.add(b);
+rod(q,new THREE.Vector3(-.1,.75,0),new THREE.Vector3(.5,1.5,0),.035,M.silver);
+rod(q,new THREE.Vector3(.1,.75,0),new THREE.Vector3(-.5,1.5,0),.035,M.silver);
+register(q,'مقص وخصلة شعر','خصلة طويلة مربوطة ومقص؛ ذكرى صغيرة من زمن مضى.',q);
+}
+
+/* تحميل المجسمات الخارجية مع إبقاء المجسم البديل */
+const loader=new GLTFLoader();
+function loadModel(url,parent,position,targetHeight,title,description,fallback){
+const placeholder=fallback();
+const group=new THREE.Group();group.position.copy(position);parent.add(group);
+group.add(placeholder);
+loader.load(url,gltf=>{
+const model=gltf.scene;
+model.updateMatrixWorld(true);
+const bounds=new THREE.Box3().setFromObject(model);
+const size=bounds.getSize(new THREE.Vector3());
+const center=bounds.getCenter(new THREE.Vector3());
+const scale=targetHeight/Math.max(size.y,.001);
+model.scale.setScalar(scale);
+model.position.set(-center.x*scale,-bounds.min.y*scale,-center.z*scale);
+group.remove(placeholder);
+group.add(model);
+model.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});
+register(group,title,description,group);
+},undefined,()=>{
+document.getElementById('hint').textContent='تعذّر تحميل أحد المجسمات الخارجية؛ تم الإبقاء على المجسم البديل.';
+});
+return group;
+}
+
+function decorate(g,i){
+if(i===0){
+label(g,'أهلاً بك','المتحف يشبهه، مو يوثّقه.',0,3.6,-6,4.5,.9);
+makeCat(g,-5,4);makeBook(g,-5,1,0x397ca7);
+}
+if(i===1){
+makeCRT(g,-6,-3);
+makeTV(g,1,3);makeConsole(g,5,2,'PS1');makeConsole(g,7,2,'PS2');
+makeController(g,5,.5,4);makeController(g,7,.5,4);
+for(let k=0;k<5;k++)makeDisc(g,-5+k*1.1,.7,5);
+makeCar(g,-2,7,0x9c303e);makeDoll(g,1,7,0xc79b75);makeDoll(g,3,7,0x3b7954);
+makeScissors(g,5,7);makeCereal(g,-1,-7);
+label(g,'عالم الطباشير','CN · سبيستون · MBC3 · فلونة · Pink Panther',0,3.8,0,4.8,.8);
+label(g,'أيام الألعاب','WWE · PES · Counter-Strike · PUBG · Transformers Prime',5,3.8,-3,5,.8);
+makeBook(g,-7,6,0x9b3148);
+}
+if(i===2){
+box(8,2.6,.3,M.wood,0,3.2,-7,g);
+label(g,'Why are we here?','أسئلة عن المعنى والحياة والإنسان.',0,4.8,-6.7,6,1);
+for(let k=0;k<3;k++){cyl(.65,.8,1.4,M.silver,-6+k*6,1.2,2,g);ball(.55,mat(0xd8d8d8),-6+k*6,2.2,2,g);}
+label(g,'أفلاطون · نيتشه · تسلا','ثلاثة أسماء ومسارات مختلفة في المعرفة.',0,3.5,6,5,.9);
+makeBook(g,-5,6);makeBook(g,5,6,0x9b3148);
+label(g,'كيف تفهم البشر؟','دليل غير رسمي… والنتائج غير مضمونة.',0,2,8,3.5,.7);
+}
+if(i===3){
+for(let k=0;k<5;k++)makeDisc(g,-5+k*1.4,.9,-2);
+makeHeadphones(g,0,1.5,2);
+label(g,'Wegz · بخت','من الاختيارات الموسيقية الأساسية.',-4,3.5,-6,4,.8);
+label(g,'Wegz · أميرة','اختيار موسيقي آخر أرسله يزن.',4,3.5,-6,4,.8);
+makeCar(g,3,6,0x152a40);
+label(g,'Night drive','Rain outside. Music inside. No rush.',3,3,7,4,.8);
+}
+if(i===4){
+label(g,'DEUTSCHLAND','خريطة ألمانيا وتعلّم اللغة واحتمالات المستقبل.',0,3.7,-6,5,.9);
+box(5,3,.12,M.blue,0,2.3,-7,g);
+for(let k=0;k<4;k++)box(.3,2.3,.08,M.silver,-1.5+k,2.3,-6.85,g);
+makeSuitcase(g,-5,3,0x31516a);makeSuitcase(g,4,3,0x9b3148);
+label(g,'لسه الاحتمالات مفتوحة','الطريق لم يُحسم بعد.',0,2.5,7,4,.8);
+}
+if(i===5){
+label(g,'FC BARCELONA','حلم كرة القدم من أيام الطفولة.',0,3.8,-6,4.5,.9);
+makeShirt(g,-5,-6);makeSoccerBall(g,0,1,3);makeShirt(g,5,4);
+label(g,'قميص يزن','قميص صغير يحمل الاسم الذي بدأ الحلم.',5,3,6,3.5,.8);
+}
+if(i===6){
+label(g,'رحلة عبر الحضارات','مصر القديمة واليونان وأسئلة التاريخ.',0,3.7,-6,4.5,.9);
+for(let k=0;k<3;k++)makePyramid(g,-6+k*5,1,1.5);
+ball(1.1,mat(0x9caab3),5,1.5,5,g);
+label(g,'إلى القمر','رحلة الإنسان إلى الفضاء.',5,3,6,3,.8);
+box(5,3,.12,M.glass,-5,2,-7,g);
+label(g,'الجليد وأعماق المحيط','عوالم باردة وعميقة وغامضة.',-5,3,6,4,.8);
+}
+if(i===7){
+label(g,'SAGITTARIUS ♐','رمز القوس؛ تقاليد ثقافية لا تنبؤات علمية.',0,3.8,-6,5,.9);
+for(let k=0;k<12;k++){const a=k*Math.PI/6;ball(.12,M.glow,Math.cos(a)*5,4+Math.sin(a)*1.8,0,g);}
+cyl(2.4,2.4,.08,M.dark,0,1,0,g,48);
+for(let k=0;k<12;k++){const a=k*Math.PI/6;ball(.13,M.gold,Math.cos(a)*2,1.15,Math.sin(a)*2,g);}
+label(g,'خريطة السماء','الكواكب والنجوم والرموز الفلكية.',0,2.4,6,4,.8);
+}
+if(i===8){
+label(g,'TRAINING ROOM','التدريب والصحة والقوة بأسلوب متوازن.',0,3.8,-6,4.5,.9);
+for(let k=0;k<4;k++){const x=-6+k*4;cyl(.7,.7,1.8,M.dark,x,1.1,-2,g);cyl(.5,.5,.25,M.silver,x,2.1,-2,g);cyl(.5,.5,.25,M.silver,x,.1,-2,g);}
+box(5,.25,1.3,M.wood,0,.7,4,g);
+for(let k=0;k<3;k++)cyl(.35,.35,.35,M.silver,-1+k,1.1,4,g);
+label(g,'وقود التمرين','غذاء متوازن وماء وراحة وتدرّج.',0,2.5,7,4,.8);
+}
+if(i===9){
+label(g,'مكتب التحليل','اقرأ، اسأل، قارن المصادر، ولا تصدّق العنوان وحده.',0,3.8,-6,5,.9);
+box(6,2.5,.25,M.dark,0,2,-7,g);
+for(let k=0;k<5;k++){box(.9,1.4,.12,M.blue,-4+k*2,2,4,g);box(.65,.08,.12,M.silver,-4+k*2,2.2,4.1,g);}
+box(5,.25,2,M.wood,0,1,5,g);chair(g,0,7);
+label(g,'ملف: أسئلة مفتوحة','الادعاء ليس دليلاً. ابحث عن المصدر والسياق.',0,3,7,4,.8);
+makeBook(g,-5,5);makeBook(g,5,5,0x9b3148);
+label(g,'C++','سطر برمجي صغير وسط الملفات الكبيرة.',-5,2.5,-2,3,.7);
+}
+if(i===10){
+label(g,'دفتر الكتابة','مساحة للكلمات والأفكار والقصائد العراقية.',0,3.7,-6,4.5,.9);
+box(3,.15,2,M.wood,0,1,2,g);box(1.4,.08,1.1,mat(0xe7dfc9),0,1.2,2,g);
+rod(g,new THREE.Vector3(1,1.3,2),new THREE.Vector3(1.5,1.8,2),.045,M.gold);
+makeBook(g,-2,2,0x9b3148);
+label(g,'مساحة بيضاء','بعض الأفكار لا تحتاج إلى جمهور.',0,2.5,6,3.5,.8);
+}
+if(i===11){
+chair(g,-2,0);chair(g,2,0);
+box(5,2.8,.2,M.dark,0,2.3,-7,g);box(4.6,2.4,.08,M.blue,0,2.3,-6.85,g);
+label(g,'غرفة المشاهدة','كنبة وبوشار وشاشة. اختيارات على مزاجك.',0,4,-6.7,4.5,.8);
+makeCereal(g,0,4);
+label(g,'قائمة المشاهدة','قصي بيطار · شريف جابر · ومحتوى متنوع.',0,2.5,7,4,.8);
+}
+if(i===12){
+chair(g,0,1);label(g,'مكتب الرئيس','رسمي جداً… وغير رسمي إطلاقاً.',0,3.8,-6,4.5,.9);
+box(6,2.5,.3,M.wood,0,1.7,-7,g);
+for(let k=0;k<5;k++){const x=-4+k*2;box(.8,1.2,.12,M.dark,x,1.8,4,g);label(g,'ملف مختوم','سري للغاية، أو ربما فاتورة قديمة.',x,2.7,4,1.5,.55);}
+label(g,'عربيتك ركيكة','تم حفظ الملاحظة داخل إطار فاخر.',0,3,7,4,.8);
+label(g,'أرشيف PUBG','المهمة التي لم ينجُ منها أحد… داخل اللعبة فقط.',-5,2.5,-2,4,.8);
+label(g,'لغز الكرسيين','كرسيتين مكسورين بكرسي جديدة.',5,2.5,-2,4,.8);
+label(g,'المنظمة السرية','العضوية مجانية، والمسؤولية غير واضحة.',0,2,9,4,.7);
+}
+if(i===13){
+label(g,'21','واحد وعشرون عاماً… وما زالت أمامك أبواب كثيرة لم تُفتح بعد.',0,4,-6,5,1);
+makeCat(g,0,4);
+label(g,'26 NOVEMBER 2026','عيد ميلاد سعيد يا يزن.',0,2.5,7,4,.8);
+label(g,'The End?','لا. هذه مجرد قاعة أخيرة.',-5,2.5,3,3,.7);
+}
+}
+
+/* إنشاء القاعات */
+rooms.forEach((r,i)=>{const g=buildShell(r);decorate(g,i);});
+for(let i=0;i<rooms.length-1;i++){
+const x=rooms[i].x+12;const c=new THREE.Group();scene.add(c);
+box(2,.35,6,M.floor,x,-.25,0,c);
+box(2,5,.15,M.glass,x,2.5,-3,c);box(2,5,.15,M.glass,x,2.5,3,c);
+box(2,.25,.3,M.trim,x,5.1,0,c);
+}
+for(const r of rooms){const light=new THREE.PointLight(0xd6f5ff,1.1,22);light.position.set(r.x,6,0);scene.add(light);}
+
+/* إدخال نماذج GLB في القاعات */
+const childhood=scene.children.find(o=>o.position.x===24&&o.type==='Group');
+const football=scene.children.find(o=>o.position.x===120&&o.type==='Group');
+if(childhood){
+loadModel('https://models.vinish.dev/retro-tech/retro-pc.glb',childhood,new THREE.Vector3(-6,0,-3),2.7,'كمبيوتر CRT من الماضي','مجسم ثلاثي الأبعاد لكمبيوتر مكتبي قديم مع شاشة وأنظمة إدخال.',()=>{const p=new THREE.Group();box(2.2,1.8,1.4,M.black,0,1,0,p);box(1.8,1.4,.1,M.screen,0,1,.76,p);return p;});
+loadModel('https://models.vinish.dev/retro-tech/crt-tv.glb',childhood,new THREE.Vector3(1,0,3),2.8,'تلفزيون CRT','مجسم ثلاثي الأبعاد لتلفزيون قديم بصندوق عميق وشاشة زجاجية.',()=>{const p=new THREE.Group();box(2.5,2,1.5,M.black,0,1,0,p);box(2.1,1.5,.1,M.screen,0,1,.8,p);return p;});
+}
+if(football){
+loadModel('https://tevy.dev/models/football/v1/lod0.glb',football,new THREE.Vector3(0,0,3),1.4,'كرة قدم','مجسم ثلاثي الأبعاد لكرة قدم.',()=>{const p=new THREE.Group();ball(.72,M.white,0,.72,0,p);return p;});
+}
+
+/* الحركة والنظر */
+let yaw=0,pitch=0,drag=false,lastX=0,lastY=0;
+const keys={},move={forward:false,back:false,left:false,right:false};
+renderer.domElement.addEventListener('pointerdown',e=>{
+if(e.button!==0)return;drag=true;lastX=e.clientX;lastY=e.clientY;
+renderer.domElement.setPointerCapture(e.pointerId);
+});
+renderer.domElement.addEventListener('pointerup',()=>drag=false);
+renderer.domElement.addEventListener('pointercancel',()=>drag=false);
+renderer.domElement.addEventListener('pointermove',e=>{
+if(!drag)return;
+const dx=e.clientX-lastX,dy=e.clientY-lastY;
+yaw-=dx*.004;pitch=clamp(pitch-dy*.003,-1.15,1.15);
+lastX=e.clientX;lastY=e.clientY;
+});
+addEventListener('keydown',e=>{
+const k=e.key.toLowerCase();keys[k]=true;
+if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();
+});
+addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+addEventListener('blur',()=>{
+Object.keys(keys).forEach(k=>keys[k]=false);
+Object.keys(move).forEach(k=>move[k]=false);
+});
+document.querySelectorAll('[data-move]').forEach(b=>{
+const k=b.dataset.move;
+b.addEventListener('pointerdown',e=>{e.preventDefault();move[k]=true;});
+['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,()=>move[k]=false));
+});
+
+function clampPosition(){
+const maxX=rooms[rooms.length-1].x+10.2;
+camera.position.x=clamp(camera.position.x,-10.2,maxX);
+const nearest=Math.round(camera.position.x/24)*24;
+const localX=camera.position.x-nearest;
+if(Math.abs(localX)<=10.2)camera.position.z=clamp(camera.position.z,-10.2,10.2);
+else camera.position.z=clamp(camera.position.z,-2.65,2.65);
+}
+const selectRoom=document.getElementById('roomSelect');
+rooms.forEach((r,i)=>{const o=document.createElement('option');o.value=i;o.textContent=r.name;selectRoom.appendChild(o);});
+function currentRoom(){return clamp(Math.round(camera.position.x/24),0,rooms.length-1);}
+function updateRoom(){
+const i=currentRoom();
+document.getElementById('roomName').textContent=rooms[i].name;
+document.getElementById('progress').textContent='قاعة '+(i+1)+' من '+rooms.length;
+selectRoom.value=String(i);
+}
+selectRoom.addEventListener('change',()=>{
+const i=Number(selectRoom.value);
+camera.position.set(rooms[i].x,1.7,0);yaw=0;pitch=0;updateRoom();
+});
+function animate(){
+requestAnimationFrame(animate);
+const dt=Math.min(clock.getDelta(),.04);
+camera.rotation.order='YXZ';camera.rotation.y=yaw;camera.rotation.x=pitch;
+const speed=7*dt;
+const forward=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw));
+const right=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));
+if(keys.w||keys.arrowup||move.forward)camera.position.addScaledVector(forward,speed);
+if(keys.s||keys.arrowdown||move.back)camera.position.addScaledVector(forward,-speed);
+if(keys.a||keys.arrowleft||move.left)camera.position.addScaledVector(right,-speed);
+if(keys.d||keys.arrowright||move.right)camera.position.addScaledVector(right,speed);
+camera.position.y=1.7;clampPosition();updateRoom();
+renderer.render(scene,camera);
+}
+animate();
+
+/* التفاعل */
+const raycaster=new THREE.Raycaster();
+document.getElementById('interact').onclick=()=>{
+raycaster.setFromCamera(new THREE.Vector2(0,0),camera);
+const hits=raycaster.intersectObjects(interactables.map(o=>o.mesh),true);
+let chosen=null;
+for(const hit of hits){
+if(hit.distance>8)continue;
+let obj=hit.object;
+while(obj&&!obj.userData.interaction)obj=obj.parent;
+if(obj){chosen=interactables.find(o=>o.mesh===obj);if(chosen)break;}
+chosen=interactables.find(o=>o.mesh===hit.object);
+if(chosen)break;
+}
+if(chosen){
+document.getElementById('modalTitle').textContent=chosen.title;
+document.getElementById('modalText').textContent=chosen.description;
+document.getElementById('modal').style.display='flex';
+}else document.getElementById('hint').textContent='وجّه نظرك نحو لوحة أو مجسّم واقترب منه، ثم اضغط «استكشف القطعة».';
+};
+document.getElementById('close').onclick=()=>document.getElementById('modal').style.display='none';
+document.getElementById('start').onclick=()=>{
+document.getElementById('intro').style.display='none';
+document.getElementById('hint').textContent='أهلاً بك. تحرّك بين القاعات واستكشف ما يلفت انتباهك.';
+};
+
+/* الموسيقى */
+const videos=[
+['اختيار 1','_RHIECWv728'],['اختيار 2','UJ3FvOcw4lQ'],['اختيار 3','rr2txGcFvcg'],
+['اختيار 4','r9N-Oz-0xGk'],['اختيار 5','VC358y0OdIU'],['اختيار 6','Nbp_fblqgg8'],
+['اختيار 7','MJPScx5tB9Q'],['اختيار 8','XQ6eom_jRtA'],['اختيار 9','e-JDTVHPxSE'],
+['اختيار 10','T7q6lKinUjU'],['اختيار 11','v3DbHcbBP1U'],['اختيار 12','-uVxtutI22A'],
+['اختيار 13','KzKy5Z-8K7k']
+];
+const track=document.getElementById('track');
+videos.forEach(v=>{const o=document.createElement('option');o.value=v[1];o.textContent=v[0];track.appendChild(o);});
+let playing=false;
+function stopMusic(){
+document.getElementById('player').replaceChildren();
+playing=false;document.getElementById('play').textContent='تشغيل';
+}
+document.getElementById('play').onclick=()=>{
+const player=document.getElementById('player');
+if(playing){stopMusic();return;}
+const id=track.value;if(!id)return;
+const iframe=document.createElement('iframe');
+iframe.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(id)+'?autoplay=1&controls=1&rel=0';
+iframe.title='موسيقى المتحف';iframe.allow='autoplay; encrypted-media; picture-in-picture';
+iframe.allowFullscreen=true;player.replaceChildren(iframe);
+playing=true;document.getElementById('play').textContent='إيقاف';
+};
+track.onchange=stopMusic;
 addEventListener('resize',()=>{
- camera.aspect=innerWidth/innerHeight;
- camera.updateProjectionMatrix();
- renderer.setSize(innerWidth,innerHeight);
+camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+renderer.setSize(innerWidth,innerHeight);
 });
 })();
 </script>
